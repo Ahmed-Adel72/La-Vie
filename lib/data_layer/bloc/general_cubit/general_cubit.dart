@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
-import 'package:la_vie/presentation_layer/layout/layout_screen.dart';
 import 'package:la_vie/presentation_layer/screens/notification_screen.dart';
 import 'package:la_vie/presentation_layer/screens/profile_screen.dart';
 import 'package:la_vie/presentation_layer/screens/scan_screen.dart';
@@ -21,15 +21,15 @@ class GeneralCubit extends Cubit<GeneralStates>{
 
     ),
      BottomNavigationBarItem(
-        icon:Icon(Icons.settings_overscan),
+        icon:Icon(IconlyLight.scan),
        label: 'scan',
     ),
      BottomNavigationBarItem(
-        icon:Icon(Icons.notifications_none_outlined),
+        icon:Icon(IconlyLight.notification),
        label: 'Notification',
     ),
      BottomNavigationBarItem(
-        icon:Icon(Icons.account_circle_outlined),
+        icon:Icon(IconlyLight.profile),
        label: 'profile',
     ),
   ];

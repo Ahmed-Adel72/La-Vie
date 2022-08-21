@@ -7,6 +7,7 @@ import 'data_layer/bloc/bloc_observer/bloc_observer.dart';
 import 'data_layer/bloc/general_cubit/general_cubit.dart';
 import 'data_layer/bloc/login_cubit/login_states.dart';
 import 'data_layer/bloc/sign_up_cubit/sign_up_cubit.dart';
+import 'presentation_layer/screens/profile_screen.dart';
 import 'presentation_layer/shared/theme/theme_data.dart';
 
 
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'La Vie',
             theme: lightMode,
-            home: LayoutScreen(),
+            home: ProfileScreen(),
           );
         },
       ),

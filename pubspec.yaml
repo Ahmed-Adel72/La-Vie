@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   bloc: ^8.1.0
   fluttertoast: ^8.0.9
+  iconly: ^1.0.1
 
 dev_dependencies:
   flutter_test:
