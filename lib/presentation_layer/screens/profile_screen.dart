@@ -115,6 +115,134 @@ class ProfileScreen extends StatelessWidget {
                       topLeft: Radius.circular(15),
                   ),
                 ),
+                child: Column(
+                  children:
+                  [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Container(
+                        height: 50,
+                        width: 290,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffF3FEF1),
+                       ),
+                        child: Row(
+                          children:
+                           [
+                            Image(image: AssetImage('assets/images/star.png')),
+                            const SizedBox(width: 10,),
+                            Text(
+                                'You have 30 points',
+                              style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 30.0,top: 20),
+                       child: Container(
+                         alignment: AlignmentDirectional.topStart,
+                         child: Text(
+                          'Edit Profile',
+                            style: Theme.of(context).textTheme.bodyText2!.
+                            copyWith(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
+                    ),
+                       ),
+                     ),
+                    const SizedBox(
+                      height: 15.0,
+                    ),
+                    Container(
+                      height: 60,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey,),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children:
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                color: Color(0xff1D592C),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                              'Change Name',
+                            style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Color(0xff2F2E2E),fontSize: 17),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: ()
+                            {
+                            },
+                            icon:const Icon(
+                              IconlyLight.arrow_right,color: Color(0xff1D592C),
+                              size: 30,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      height: 60,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey,),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children:
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                color: Color(0xff1D592C),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            'Change Email',
+                            style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Color(0xff2F2E2E),fontSize: 17),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: ()
+                            {
+                            },
+                            icon:const Icon(
+                              IconlyLight.arrow_right,color: Color(0xff1D592C),
+                              size: 30,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+
+
+                  ],
+                ),
               ),
             ],
           ),
