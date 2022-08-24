@@ -4,26 +4,25 @@ import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
+import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
+import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/widgets/card_details_tree.dart';
-
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  TextEditingController searchController=TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GeneralCubit,GeneralStates>(
-      listener: (context,state){},
-      builder: (context, state)
-      {
-        String token=CachHelper.getData(key: 'token');
-        var cubit=GeneralCubit.get(context);
+    return BlocConsumer<GeneralCubit, GeneralStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        String token = CachHelper.getData(key: 'token');
+        var cubit = GeneralCubit.get(context);
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children:
-            [
+            children: [
               Padding(
                 padding: const EdgeInsets.only(top: 35.0),
                 child: SizedBox(
@@ -32,18 +31,19 @@ class HomeScreen extends StatelessWidget {
                   child: Image.asset('assets/images/la_vie.png'),
                 ),
               ),
-              const SizedBox(height: 10.0,),
+              const SizedBox(
+                height: 10.0,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  children:
-                  [
+                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         height: 45.0,
                         width: 280.0,
-                        color:  const Color(0xffF8F8F8),
+                        color: const Color(0xffF8F8F8),
                         child: TextFormField(
                           controller: searchController,
                           keyboardType: TextInputType.text,
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: const BorderSide(
-                                color:  Color(0xffF8F8F8),
+                                color: Color(0xffF8F8F8),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -79,11 +79,15 @@ class HomeScreen extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         child: MaterialButton(
-                          onPressed: ()
-                          {
-
+                          onPressed: () {
+                            CachHelper.deleteData('token');
+                            navigatePushAndFinish(
+                                context: context, navigateTo: LoginScreen());
                           },
-                          child: const Icon(IconlyLight.buy,color: Colors.white,),
+                          child: const Icon(
+                            IconlyLight.buy,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -98,8 +102,7 @@ class HomeScreen extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => Row(
-                      children:
-                      [
+                      children: [
                         Container(
                           height: 30.0,
                           width: 80.0,
@@ -107,15 +110,17 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.grey[300],
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          child:Center(
-                              child: Text('seeds',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!,)),
+                          child: Center(
+                              child: Text(
+                            'seeds',
+                            style: Theme.of(context).textTheme.bodyText2!,
+                          )),
                         ),
                       ],
                     ),
-                    separatorBuilder: (context, index) => const SizedBox(width: 10.0,),
+                    separatorBuilder: (context, index) => const SizedBox(
+                      width: 10.0,
+                    ),
                     itemCount: 10,
                   ),
                 ),

@@ -15,16 +15,14 @@ class ProfileScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GeneralCubit,GeneralStates>(
-      listener: (context,state){},
-      builder: (context, state)
-      {
+    return BlocConsumer<GeneralCubit, GeneralStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         // String token=CachHelper.getData(key: 'token');
         // var cubit=GeneralCubit.get(context);
         return Scaffold(
           body: Stack(
-            children:
-            [
+            children: [
               Container(
                 height: 250,
                 width: double.infinity,
@@ -39,9 +37,9 @@ class ProfileScreen extends StatelessWidget {
                     topLeft: Radius.circular(15),
                   ),
                 ),
-                child:  BackdropFilter(
-                  filter:  ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                  child:  Container(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                  child: Container(
                     color: Colors.black.withOpacity(0.6),
                   ),
                 ),
@@ -49,24 +47,22 @@ class ProfileScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 22.0),
                 child: Row(
-                  children:
-                  [
+                  children: [
                     IconButton(
-                      onPressed: ()
-                      {
+                      onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon:const Icon(
-                        IconlyLight.arrow_left,color: Colors.white,
+                      icon: const Icon(
+                        IconlyLight.arrow_left,
+                        color: Colors.white,
                       ),
                     ),
                     const Spacer(),
                     IconButton(
-                      onPressed: ()
-                      {
-                      },
-                      icon:const Icon(
-                        Icons.more_horiz_sharp,color: Colors.white,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.more_horiz_sharp,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -77,8 +73,7 @@ class ProfileScreen extends StatelessWidget {
                 child: Container(
                   alignment: AlignmentDirectional.center,
                   child: Column(
-                    children:
-                    [
+                    children: [
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -99,11 +94,10 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       Text(
                         'ahmed adel',
-                        style:
-                        Theme.of(context).textTheme.bodyText1!.copyWith(
-                          fontSize: 24.0,
-                          color: Colors.white,
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 24.0,
+                              color: Colors.white,
+                            ),
                       ),
                     ],
                   ),
@@ -123,8 +117,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     child: Column(
-                      children:
-                      [
+                      children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
                           child: Container(
@@ -134,26 +127,37 @@ class ProfileScreen extends StatelessWidget {
                               color: Color(0xffF3FEF1),
                             ),
                             child: Row(
-                              children:
-                              [
-                                const Image(image: AssetImage('assets/images/star.png')),
-                                const SizedBox(width: 10,),
+                              children: [
+                                const Image(
+                                    image:
+                                        AssetImage('assets/images/star.png')),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 Text(
                                   'You have 30 points',
-                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .copyWith(color: Colors.black),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 30.0,top: 20),
+                          padding: const EdgeInsets.only(left: 30.0, top: 20),
                           child: Container(
                             alignment: AlignmentDirectional.topStart,
                             child: Text(
                               'Edit Profile',
-                              style: Theme.of(context).textTheme.bodyText2!.
-                              copyWith(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -164,19 +168,20 @@ class ProfileScreen extends StatelessWidget {
                           height: 60,
                           width: 300,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey,),
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Row(
-                            children:
-                            [
+                            children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                   height: 25,
                                   width: 25,
                                   decoration: BoxDecoration(
-                                    color:const Color(0xff1D592C),
+                                    color: const Color(0xff1D592C),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -186,23 +191,29 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               Text(
                                 'Change Name',
-                                style: Theme.of(context).textTheme.bodyText2!.copyWith(color:const Color(0xff2F2E2E),fontSize: 17),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(
+                                        color: const Color(0xff2F2E2E),
+                                        fontSize: 17),
                               ),
                               const Spacer(),
                               IconButton(
-                                onPressed: ()
-                                {
+                                onPressed: () {
                                   showModalBottomSheet(
                                     context: context,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(80),
                                     ),
                                     isScrollControlled: true,
-                                    builder: (context) => modalSheetName(context),
+                                    builder: (context) =>
+                                        modalSheetName(context),
                                   );
                                 },
-                                icon:const Icon(
-                                  IconlyLight.arrow_right,color: Color(0xff1D592C),
+                                icon: const Icon(
+                                  IconlyLight.arrow_right,
+                                  color: Color(0xff1D592C),
                                   size: 30,
                                 ),
                               ),
@@ -216,19 +227,20 @@ class ProfileScreen extends StatelessWidget {
                           height: 60,
                           width: 300,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey,),
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Row(
-                            children:
-                            [
+                            children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                   height: 25,
                                   width: 25,
                                   decoration: BoxDecoration(
-                                    color:const Color(0xff1D592C),
+                                    color: const Color(0xff1D592C),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -238,13 +250,16 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               Text(
                                 'Change Email',
-                                style: Theme.of(context).textTheme.bodyText2!
-                                    .copyWith(color:const Color(0xff2F2E2E),fontSize: 17),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(
+                                        color: const Color(0xff2F2E2E),
+                                        fontSize: 17),
                               ),
                               const Spacer(),
                               IconButton(
-                                onPressed: ()
-                                {
+                                onPressed: () {
                                   // cubit.getMyData(token: token);
                                   showModalBottomSheet(
                                     context: context,
@@ -252,11 +267,13 @@ class ProfileScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(80),
                                     ),
                                     isScrollControlled: true,
-                                    builder: (context) => modalSheetEmail(context),
+                                    builder: (context) =>
+                                        modalSheetEmail(context),
                                   );
                                 },
-                                icon:const Icon(
-                                  IconlyLight.arrow_right,color: Color(0xff1D592C),
+                                icon: const Icon(
+                                  IconlyLight.arrow_right,
+                                  color: Color(0xff1D592C),
                                   size: 30,
                                 ),
                               ),
@@ -284,7 +301,7 @@ class ProfileScreen extends StatelessWidget {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.4,
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(40),
@@ -310,7 +327,7 @@ class ProfileScreen extends StatelessWidget {
                         controller: nameController,
                         keyboardType: TextInputType.visiblePassword,
                         labelText: "Your Name",
-                        prefixIcon:const Icon(
+                        prefixIcon: const Icon(
                           IconlyLight.user,
                           color: Colors.grey,
                         ),
@@ -327,7 +344,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 35.0,
                   ),
-                   SizedBox(
+                  SizedBox(
                     width: 322.0,
                     height: 45.0,
                     child: MaterialButton(
@@ -337,7 +354,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {},
-                      child:const Text(
+                      child: const Text(
                         'Change',
                         style: TextStyle(
                           color: Colors.white,
@@ -355,6 +372,7 @@ class ProfileScreen extends StatelessWidget {
       },
     );
   }
+
   Widget modalSheetEmail(BuildContext context) {
     return StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {
@@ -364,7 +382,7 @@ class ProfileScreen extends StatelessWidget {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.4,
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(40),
@@ -390,7 +408,7 @@ class ProfileScreen extends StatelessWidget {
                         controller: nameController,
                         keyboardType: TextInputType.visiblePassword,
                         labelText: "Your Email",
-                        prefixIcon:const Icon(
+                        prefixIcon: const Icon(
                           Icons.email_outlined,
                           color: Colors.grey,
                         ),
@@ -407,7 +425,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 35.0,
                   ),
-                   SizedBox(
+                  SizedBox(
                     width: 322.0,
                     height: 45.0,
                     child: MaterialButton(
@@ -417,7 +435,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {},
-                      child:const Text(
+                      child: const Text(
                         'Change',
                         style: TextStyle(
                           color: Colors.white,

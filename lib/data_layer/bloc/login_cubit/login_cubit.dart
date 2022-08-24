@@ -7,44 +7,36 @@ import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
 import 'login_states.dart';
 
-class LoginCubit extends Cubit<LoginStates>{
+class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(InitialLoginStates());
   static LoginCubit get(context) => BlocProvider.of(context);
 
-  bool isLoginLoading=false;
+  bool isLoginLoading = false;
   UserLoginModel? userLoginModel;
   void userLogin({
     required String? email,
     required String? password,
     required BuildContext? context,
-  })
-  {
+  }) {
     emit(UserLoginLoadingState());
-    isLoginLoading=true;
-    DioHelper.postData(url: login,
-        data:
-        {
-          'password':password!,
-          'email':email!,
-        }
-        ).then((value)
-    {
-      userLoginModel=UserLoginModel.fromJson(value.data);
+    isLoginLoading = true;
+    DioHelper.postData(url: login, data: {
+      'password': password!,
+      'email': email!,
+    }).then((value) {
+      userLoginModel = UserLoginModel.fromJson(value.data);
       CachHelper.setData(key: 'token', value: UserLoginModel.token);
       print(UserLoginModel.token);
       emit(UserLoginSuccessState());
-      isLoginLoading=false;
-      showToast(message:UserLoginModel.message!, toastState: ToastState.success );
-
-    }).catchError((error)
-    {
+      isLoginLoading = false;
+      showToast(
+          message: UserLoginModel.message!, toastState: ToastState.success);
+    }).catchError((error) {
       emit(UserLoginErrorState());
       print(error);
 
-      isLoginLoading=false;
-      showToast(message:UserLoginModel.message!, toastState: ToastState.error );
-
+      isLoginLoading = false;
+      showToast(message: UserLoginModel.message!, toastState: ToastState.error);
     });
   }
-
 }

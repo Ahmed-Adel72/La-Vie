@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
+import 'package:la_vie/presentation_layer/layout/layout_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 
 TextEditingController? emailController = TextEditingController();
@@ -11,11 +12,10 @@ TextEditingController? passwordController = TextEditingController();
 Widget loginWidget(context) {
   var formKey = GlobalKey<FormState>();
 
-  return BlocConsumer<LoginCubit,LoginStates>(
+  return BlocConsumer<LoginCubit, LoginStates>(
     listener: (context, state) {},
-    builder: (context, state)
-    {
-      var cubit=LoginCubit.get(context);
+    builder: (context, state) {
+      var cubit = LoginCubit.get(context);
       return Form(
         key: formKey,
         child: Column(
@@ -69,39 +69,40 @@ Widget loginWidget(context) {
             const SizedBox(
               height: 30.0,
             ),
-            cubit.isLoginLoading? Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-              ),
-            ):
-            Container(
-              height: 45.0,
-              width: 300.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.0),
-                color: Theme.of(context).primaryColor,
-              ),
-              child: MaterialButton(
-                onPressed: ()
-                {
-                  if(formKey.currentState!.validate())
-                  {
-                    cubit.userLogin(
-                      email: emailController!.text,
-                      password: passwordController!.text,
-                      context: context,
-                    );
-                  }
-                },
-                child: Text(
-                  'Login',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: Colors.white, fontSize: 16.0,),
-                ),
-              ),
-            ),
+            cubit.isLoginLoading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                : Container(
+                    height: 45.0,
+                    width: 300.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: MaterialButton(
+                      onPressed: () {
+                        navigatePushAndFinish(
+                            context: context, navigateTo: LayoutScreen());
+                        if (formKey.currentState!.validate()) {
+                          cubit.userLogin(
+                            email: emailController!.text,
+                            password: passwordController!.text,
+                            context: context,
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Login',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ),
+                      ),
+                    ),
+                  ),
           ],
         ),
       );

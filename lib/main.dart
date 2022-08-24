@@ -12,54 +12,50 @@ import 'data_layer/cach_helper.dart';
 import 'presentation_layer/layout/layout_screen.dart';
 import 'presentation_layer/shared/theme/theme_data.dart';
 
-
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DioHelper.init();
   await CachHelper.init();
-  token=CachHelper.getData(key: 'token');
+  token = CachHelper.getData(key: 'token');
   Bloc.observer = MyBlocObserver();
 
   Widget startWidget;
-  if(await CachHelper.getData(key: 'token')!=null||CachHelper.getData(key: 'token')!='')
-  {
-    startWidget=LayoutScreen();
-  }else
-
-    {
-      startWidget=LoginScreen();
-    }
+  if (await CachHelper.getData(key: 'token') != null ||
+      CachHelper.getData(key: 'token') != '') {
+    startWidget = LayoutScreen();
+  } else {
+    startWidget = LoginScreen();
+  }
   runApp(MyApp(startWidget));
 }
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;
-   MyApp(this.startWidget);
+  MyApp(this.startWidget);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers:
-      [
+      providers: [
         BlocProvider(
-          create: (context)=> GeneralCubit()..getAllProducts(token: token),),
+          create: (context) => GeneralCubit()..getAllProducts(token: token),
+        ),
         BlocProvider(
-            create: (context)=> LoginCubit(),),
+          create: (context) => LoginCubit(),
+        ),
         BlocProvider(
-            create: (context)=> SignUpCubit(),),
+          create: (context) => SignUpCubit(),
+        ),
       ],
-      child: BlocConsumer<LoginCubit,LoginStates>(
-        listener: (context, state){},
-        builder: (context, state)
-        {
+      child: BlocConsumer<LoginCubit, LoginStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'La Vie',
-            theme: lightMode,
-            home:startWidget,
-          );
+              debugShowCheckedModeBanner: false,
+              title: 'La Vie',
+              theme: lightMode,
+              home: LoginScreen());
         },
       ),
     );
