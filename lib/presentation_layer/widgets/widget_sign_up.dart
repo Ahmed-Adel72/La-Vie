@@ -16,7 +16,6 @@ Widget signUpWidget() {
     listener: (context, state){},
     builder: (context, state)
     {
-      // var cubit=SignUpCubit.get(context);
       return Form(
         key: formKey,
         child: Column(
@@ -157,11 +156,6 @@ Widget signUpWidget() {
             const SizedBox(
               height: 18.0,
             ),
-            // cubit.isLoginLoading? Center(
-            //   child: CircularProgressIndicator(
-            //     color: Theme.of(context).primaryColor,
-            //   ),
-            // ):
             Container(
               height: 40.0,
               width: 300.0,
@@ -171,16 +165,7 @@ Widget signUpWidget() {
               ),
               child: MaterialButton(
                 onPressed: ()
-                {
-                  // if(formKey.currentState!.validate())
-                  // {
-                  //   cubit.userLogin(
-                  //     email: emailController!.text,
-                  //     password: passwordController!.text,
-                  //     context: context,
-                  //   );
-                  // }
-                },
+                {},
                 child: Text(
                   'Sign up',
                   style: Theme.of(context)

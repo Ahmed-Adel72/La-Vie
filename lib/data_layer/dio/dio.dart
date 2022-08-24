@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
 
 class DioHelper {
   static late Response response;
@@ -8,7 +9,7 @@ class DioHelper {
 
   static init() {
     dio = Dio(BaseOptions(
-      baseUrl: "https://lavie.orangedigitalcenteregypt.com",
+      baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
     ));
   }
@@ -16,12 +17,12 @@ class DioHelper {
   static Future<dynamic> getData({
     String? url,
     Map<String, dynamic>? query,
-    Map<String, dynamic>? token,
+    Map<String, dynamic>? headers,
   }) async {
     return response = await dio!.get(
       url!,
       queryParameters: query,
-      options: Options(headers: token),
+      options: Options(headers: headers),
     );
   }
 
@@ -117,22 +118,4 @@ class DioHelper {
     );
   }
 
-  static Future<dynamic> patchEventData({
-    required String url,
-    required Map<String, dynamic> data,
-    String? token,
-  }) async {
-    return response = (await dio?.patch(url,
-        data: data,
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'
-        })))!;
-  }
 }
-/*
-* {
-        'photo': await MultipartFile.fromFile(image.path,
-            filename: fileName,
-            contentType: MediaType("image", fileName.split(".").last)),
-      },*/

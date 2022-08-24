@@ -2,8 +2,8 @@ abstract class LoginStates {}
 
 class InitialLoginStates extends LoginStates{}
 
-class UserLoginLoadingStates extends LoginStates{}
+class UserLoginLoadingState extends LoginStates{}
 
-class UserLoginSuccessStates extends LoginStates{}
+class UserLoginSuccessState extends LoginStates{}
 
-class UserLoginErrorStates extends LoginStates{}
+class UserLoginErrorState extends LoginStates{}

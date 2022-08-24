@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
 import 'package:la_vie/presentation_layer/models/login_model.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
@@ -18,8 +19,7 @@ class LoginCubit extends Cubit<LoginStates>{
     required BuildContext? context,
   })
   {
-    emit(UserLoginLoadingStates());
-    print("sss");
+    emit(UserLoginLoadingState());
     isLoginLoading=true;
     DioHelper.postData(url: login,
         data:
@@ -30,14 +30,15 @@ class LoginCubit extends Cubit<LoginStates>{
         ).then((value)
     {
       userLoginModel=UserLoginModel.fromJson(value.data);
-      token=UserLoginModel.token;
-      emit(UserLoginSuccessStates());
+      CachHelper.setData(key: 'token', value: UserLoginModel.token);
+      print(UserLoginModel.token);
+      emit(UserLoginSuccessState());
       isLoginLoading=false;
       showToast(message:UserLoginModel.message!, toastState: ToastState.success );
 
     }).catchError((error)
     {
-      emit(UserLoginErrorStates());
+      emit(UserLoginErrorState());
       print(error);
 
       isLoginLoading=false;
