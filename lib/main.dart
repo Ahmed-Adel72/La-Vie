@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
+import 'package:la_vie/data_layer/database/database.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
 import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
 import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
@@ -18,6 +19,7 @@ void main() async {
   await CachHelper.init();
   token = CachHelper.getData(key: 'token');
   Bloc.observer = MyBlocObserver();
+  createDataBase();
 
   Widget startWidget;
   if (await CachHelper.getData(key: 'token') != null ||
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'La Vie',
               theme: lightMode,
-              home: LoginScreen());
+              home: startWidget);
         },
       ),
     );

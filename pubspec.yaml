@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.0.9
   iconly: ^1.0.1
   shared_preferences: ^2.0.15
+  sqflite:
 
 dev_dependencies:
   flutter_test:

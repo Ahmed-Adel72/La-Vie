@@ -7,17 +7,29 @@ class AllProductsData {
   static String? productId;
   static String? name;
   static String? description;
+  static String? newImageUrl;
   static String? imageUrl;
   static String? image;
   static int? price;
-  static int? numberOfCard = 1;
   static bool? available;
 
   AllProductsData.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
     data = json['data'] != null ? List<dynamic>.of(json['data']) : null;
-    data?.add(numberOfCard);
+    data?.forEach((element)
+    {
+      if (element['type'] == 'SEED') {
+        element['seed'].addAll({'amount': 1});
+
+      } else if (element['type'] == 'PLANT') {
+        element['plant'].addAll({'amount': 1});
+
+      } else {
+        element['tool'].addAll({'amount': 1});
+
+      }
+    });
   }
   static String getMainProductId(int index) {
     return productId = data![index]['productId'];
@@ -32,7 +44,7 @@ class AllProductsData {
   }
 
   static String getMainImage(int index) {
-    return imageUrl = data![index]['imageUrl'];
+    return imageUrl =baseUrl + data![index]['imageUrl'];
   }
 
   static String getImage(int index) {
@@ -65,8 +77,27 @@ class AllProductsData {
     }
     return 'no name';
   }
+  static int getNumberOfCard(int index) {
+    if (data?[index]['type'] == 'PLANT') {
+      return data?[index]['plant']['amount'];
+    } else if (data?[index]['type'] == 'SEED') {
+      return data?[index]['seed']['amount'];
+    } else if (data?[index]['type'] == 'TOOL') {
+      return data?[index]['tool']['amount'];
+    }
+    return 1;
+  }
 
   static int getPrice(int index) {
     return data?[index]['price'];
+  }
+  static numbOfCard(int number,int index) {
+     if (data?[index]['type'] == 'PLANT') {
+        data?[index]['plant']['amount']=number;
+     } else if (data?[index]['type'] == 'SEED') {
+        data?[index]['seed']['amount']=number;
+     } else if (data?[index]['type'] == 'TOOL') {
+        data?[index]['tool']['amount']=number;
+     }
   }
 }

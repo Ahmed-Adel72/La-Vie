@@ -12,6 +12,7 @@ import 'package:la_vie/presentation_layer/screens/profile_screen.dart';
 import 'package:la_vie/presentation_layer/screens/scan_screen.dart';
 import 'package:la_vie/presentation_layer/screens/tree_screen.dart';
 import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
+import 'package:sqflite/sqflite.dart';
 
 class GeneralCubit extends Cubit<GeneralStates> {
   GeneralCubit() : super(InitialState());
@@ -99,13 +100,27 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
-  int counter = 1;
-  int newCounter = 0;
-  void changeCounterCard({
-    required int index,
-  }) {
-    newCounter = counter++;
-    AllProductsData.numberOfCard = newCounter;
+  int counter=1;
+  void changeCounterCardPlus({required index,}) {
+    counter=AllProductsData.getNumberOfCard(index);
+    counter++;
+    AllProductsData.numbOfCard(counter,index);
     emit(ChangeCardState());
   }
+
+  void changeCounterCardMinus({required index,}) {
+    counter=AllProductsData.getNumberOfCard(index);
+    if(counter<=1)
+    {
+      counter=1;
+    }else {
+      counter--;
+    }
+    AllProductsData.numbOfCard(counter,index);
+    emit(ChangeCardState());
+  }
+
+
+
+
 }

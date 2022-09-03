@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
+import 'package:la_vie/data_layer/database/database.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 
 Widget cardDetailsTree() => Container(
@@ -41,14 +41,17 @@ Widget cardDetailsTree() => Container(
                                 Icons.remove,
                                 color: Colors.grey,
                               ),
-                              onPressed: () {},
+                              onPressed: ()
+                              {
+                                GeneralCubit.get(context).changeCounterCardMinus(index: index);
+                              },
                             ),
                           ),
                           Padding(
                             padding:
                                 const EdgeInsets.only(top: 10.0, left: 10.0),
                             child: Text(
-                              '${AllProductsData.numberOfCard}',
+                                '${AllProductsData.getNumberOfCard(index)}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2!
@@ -67,8 +70,7 @@ Widget cardDetailsTree() => Container(
                                   color: Colors.grey,
                                 ),
                                 onPressed: () {
-                                  GeneralCubit.get(context)
-                                      .changeCounterCard(index: index);
+                                  GeneralCubit.get(context).changeCounterCardPlus(index: index);
                                 },
                               ),
                             ),
@@ -79,7 +81,7 @@ Widget cardDetailsTree() => Container(
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          AllProductsData.getName(index),
+                          AllProductsData.getMainName(index),
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2!
@@ -111,7 +113,15 @@ Widget cardDetailsTree() => Container(
                             color: Theme.of(context).primaryColor,
                           ),
                           child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: ()
+                            {
+                              insertToDataBase(
+                                photo: AllProductsData.getMainImage(index),
+                                name: AllProductsData.getMainName(index),
+                                price: AllProductsData.getPrice(index),
+                                amount: AllProductsData.getNumberOfCard(index),
+                              );
+                            },
                             child: Text(
                               'Add To Cart',
                               style: Theme.of(context)
@@ -137,7 +147,7 @@ Widget cardDetailsTree() => Container(
                   width: 80.0,
                   alignment: Alignment.topLeft,
                   child: Image(
-                    image: NetworkImage(AllProductsData.getImage(index)),
+                    image: NetworkImage(AllProductsData.getMainImage(index)),
                   )),
             ),
           ],
