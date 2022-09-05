@@ -1,5 +1,4 @@
 dynamic token;
-List<Map> favorites=[];
 String noImage='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png';
 const String baseUrl="https://lavie.orangedigitalcenteregypt.com";
 const String login="/api/v1/auth/signin";

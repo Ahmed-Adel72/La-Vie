@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
-import 'package:la_vie/data_layer/database/database.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 
 Widget cardDetailsTree() => Container(
@@ -115,11 +114,12 @@ Widget cardDetailsTree() => Container(
                           child: MaterialButton(
                             onPressed: ()
                             {
-                              insertToDataBase(
+                              GeneralCubit.get(context).insertToDataBase(
                                 photo: AllProductsData.getMainImage(index),
                                 name: AllProductsData.getMainName(index),
                                 price: AllProductsData.getPrice(index),
                                 amount: AllProductsData.getNumberOfCard(index),
+                                productId: AllProductsData.getProductId(index),
                               );
                             },
                             child: Text(

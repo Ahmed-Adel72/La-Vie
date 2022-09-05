@@ -91,6 +91,9 @@ class AllProductsData {
   static int getPrice(int index) {
     return data?[index]['price'];
   }
+  static String getProductId(int index) {
+    return data?[index]['productId'];
+  }
   static numbOfCard(int number,int index) {
      if (data?[index]['type'] == 'PLANT') {
         data?[index]['plant']['amount']=number;

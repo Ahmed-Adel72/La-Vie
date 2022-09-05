@@ -4,7 +4,6 @@ import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
-import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
 import 'package:la_vie/presentation_layer/screens/my_card_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/widgets/card_details_home_screen.dart';
@@ -12,6 +11,7 @@ import 'package:la_vie/presentation_layer/widgets/card_details_home_screen.dart'
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
   TextEditingController searchController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,6 @@ class HomeScreen extends StatelessWidget {
                           onPressed: ()
                           {
                             navigatePushTo(context: context, navigateTo: MyCardScreen());
-
                           },
                           child: const Icon(
                             IconlyLight.buy,

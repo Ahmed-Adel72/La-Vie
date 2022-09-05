@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
-import 'package:la_vie/data_layer/database/database.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
 import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
 import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
@@ -19,14 +18,15 @@ void main() async {
   await CachHelper.init();
   token = CachHelper.getData(key: 'token');
   Bloc.observer = MyBlocObserver();
-  createDataBase();
+
+
 
   Widget startWidget;
-  if (await CachHelper.getData(key: 'token') != null ||
-      CachHelper.getData(key: 'token') != '') {
-    startWidget = LayoutScreen();
-  } else {
+  if (await token == null ||
+      token == '') {
     startWidget = LoginScreen();
+  } else {
+    startWidget = LayoutScreen();
   }
   runApp(MyApp(startWidget));
 }
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GeneralCubit()..getAllProducts(token: token),
+          create: (context) => GeneralCubit()..getAllProducts(token: token)..createDataBase(),
         ),
         BlocProvider(
           create: (context) => LoginCubit(),

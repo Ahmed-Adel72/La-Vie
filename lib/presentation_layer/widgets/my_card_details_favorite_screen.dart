@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
-import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
+import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
 Widget MyFavoriteCard(context,index) => Column(
@@ -26,7 +25,7 @@ Widget MyFavoriteCard(context,index) => Column(
                   borderRadius: BorderRadiusDirectional.circular(10),
                 ),
                 child: Image(
-                  image: NetworkImage(favorites[index]['photo']),
+                  image: NetworkImage(GeneralCubit.get(context).favorites[index]['photo']),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -38,7 +37,7 @@ Widget MyFavoriteCard(context,index) => Column(
                 Container(
                   width:146,
                   child: Text(
-                    '${favorites[index]['name']}',
+                    '${GeneralCubit.get(context).favorites[index]['name']}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyText2!
@@ -47,7 +46,7 @@ Widget MyFavoriteCard(context,index) => Column(
                 ),
                 const SizedBox(height: 11.0,),
                 Text(
-                  '${favorites[index]['price']} EGP',
+                  '${GeneralCubit.get(context).favorites[index]['price']} EGP',
                   style: Theme.of(context).textTheme.bodyText2!
                       .copyWith(fontSize:15,color: primaryColor),
                 ),
@@ -63,9 +62,12 @@ Widget MyFavoriteCard(context,index) => Column(
                     children:
                     [
                       Container(
-                        width:30,
+                        width:28,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: ()
+                          {
+                            GeneralCubit.get(context).changeCounterMyCardMinus(index: index,context: context);
+                          },
                           icon: const Icon(
                             Icons.remove,
                             color: primaryColor,
@@ -73,14 +75,17 @@ Widget MyFavoriteCard(context,index) => Column(
                           ),
                         ),
                       ),
-                       Text(
-                        '${favorites[index]['amount']}',
-                        style: TextStyle(color: Colors.black),
+                      Text(
+                        '${GeneralCubit.get(context).favorites[index]['amount']}',
+                        style:const TextStyle(color: Colors.black),
                       ),
                       Container(
-                        width: 30,
+                        width: 28,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: ()
+                          {
+                            GeneralCubit.get(context).changeCounterMyCardPlus(index: index,context: context);
+                          },
                           icon: const Icon(
                             Icons.add,
                             color: primaryColor,
@@ -88,7 +93,6 @@ Widget MyFavoriteCard(context,index) => Column(
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -98,7 +102,11 @@ Widget MyFavoriteCard(context,index) => Column(
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
               child: IconButton(
-                onPressed: () {},
+                onPressed: ()
+                {
+                  GeneralCubit.get(context)
+                      .deleteDataFromDataBase(id: GeneralCubit.get(context).favorites[index]['id']);
+                },
                 icon: const Icon(
                   Icons.delete,
                   color: primaryColor,
@@ -107,7 +115,6 @@ Widget MyFavoriteCard(context,index) => Column(
               ),
             ),
           ],
-
         ),
       ),
     ),

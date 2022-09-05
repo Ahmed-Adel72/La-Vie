@@ -17,3 +17,13 @@ class GetAllProductsSuccessState extends GeneralStates {}
 class GetAllProductsErrorState extends GeneralStates {}
 
 class ChangeCardState extends GeneralStates {}
+
+class GetDataBaseSuccessState extends GeneralStates {}
+
+class CreateDataBaseSuccessState extends GeneralStates {}
+
+class DeleteDataBaseSuccessState extends GeneralStates {}
+
+class InsertDataBaseSuccessState extends GeneralStates {}
+
+class UpdateDataBaseSuccessState extends GeneralStates {}

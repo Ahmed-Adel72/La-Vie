@@ -120,7 +120,149 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ChangeCardState());
   }
 
+  int counterMyCard=1;
+  void changeCounterMyCardPlus({required index,context})
+  {
+    for(int i=0;i<AllProductsData.data!.length;i++)
+    {
+      if(AllProductsData.getProductId(i)==favorites[index]['productId'])
+      {
+        counterMyCard=AllProductsData.getNumberOfCard(i);
+        counterMyCard++;
+        AllProductsData.numbOfCard(counterMyCard,i);
+        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index);
+      }
+    }
+    emit(ChangeCardState());
+  }
 
+  void changeCounterMyCardMinus({required index,context})
+  {
+    for(int i=0;i<AllProductsData.data!.length;i++)
+    {
+      if(AllProductsData.getProductId(i)==favorites[index]['productId'])
+      {
+        counterMyCard=AllProductsData.getNumberOfCard(i);
+        if(counterMyCard<=1)
+        {
+          counterMyCard=1;
+        }else {
+          counterMyCard--;
+        }
+        AllProductsData.numbOfCard(counterMyCard,i);
+        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index);
+      }
+    }
+    emit(ChangeCardState());
+  }
 
+////////////////dataBase////////////////////
+  Database? database;
+  List<Map> favorites=[];
+  void createDataBase()
+  {
+    openDatabase(
+      'MyCard.db',
+      version: 1,
+      onCreate: (database,version)
+      {
+         database
+            .execute(
+            'CREATE TABLE MyCard (id INTEGER PRIMARY KEY, photo TEXT, name INTEGER, price INTEGER,amount INTEGER,productId TEXT)').then((value)
+        {
+          print('database created');
+        }).catchError((error)
+        {
+          print('Error when created database${error.toString()}');
+        });
+      },
+      onOpen: (database)
+      {
+        getDataFromDataBase(database).then((value)
+        {
+          favorites=value;
+          print(favorites);
+          emit(GetDataBaseSuccessState());
+        });
+        print('database open');
+      },
+    ).then((value)
+    {
+      database=value;
+      emit(CreateDataBaseSuccessState());
+    });
+  }
+
+  Future<void> insertToDataBase(
+      {
+        String? photo,
+        String? name,
+        int? price,
+        int? amount,
+        String? productId,
+      })
+  async {
+    await database!.transaction((txn)
+    async{
+      await txn.rawInsert('INSERT INTO MyCard(photo,name,price,amount,productId) VALUES("$photo","$name","$price","$amount","$productId")')
+          .then((value)
+      {
+        print('$value inserted successfully');
+        emit(InsertDataBaseSuccessState());
+        getDataFromDataBase(database).then((value)
+        {
+          favorites=value;
+          print(favorites);
+          emit(GetDataBaseSuccessState());
+        });
+      }).catchError((error)
+      {
+        print('Error when inserting ${error.toString()}');
+      });
+      return null;
+    });
+  }
+
+  Future<List<Map>> getDataFromDataBase(database)async
+  {
+    return await database!.rawQuery('SELECT * FROM MyCard');
+
+  }
+
+  Future<void> deleteDataFromDataBase(
+  {
+  required int id,
+})async
+  {
+     await database!.rawDelete('DELETE FROM MyCard WHERE id = $id');
+     emit(DeleteDataBaseSuccessState());
+     getDataFromDataBase(database).then((value)
+     {
+       favorites=value;
+       print(favorites);
+       emit(GetDataBaseSuccessState());
+     });
+  }
+
+  Future<void> updateDataFromDataBase(
+      {
+        String? photo,
+        String? name,
+        int? price,
+        int? amount,
+        String? productId,
+        int? index,
+      })async
+  {
+    await database!.rawUpdate('UPDATE MyCard SET amount = $amount WHERE id=${index!+1}');
+    emit(UpdateDataBaseSuccessState());
+    getDataFromDataBase(database).then((value)
+    {
+      favorites=value;
+      print(favorites);
+      emit(GetDataBaseSuccessState());
+    });
+  }
+/////////////end of dataBase/////////////////
 
 }
