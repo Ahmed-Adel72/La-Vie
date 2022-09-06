@@ -120,7 +120,12 @@ Widget cardDetailsTree() => Container(
                                 price: AllProductsData.getPrice(index),
                                 amount: AllProductsData.getNumberOfCard(index),
                                 productId: AllProductsData.getProductId(index),
-                              );
+                                total:AllProductsData.getNumberOfCard(index)*AllProductsData.getPrice(index),
+                              ).then((value)
+                              {
+                                GeneralCubit.get(context).favorites!.isEmpty?const SizedBox():
+                                GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+AllProductsData.getNumberOfCard(index)*AllProductsData.getPrice(index) );
+                              });
                             },
                             child: Text(
                               'Add To Cart',
@@ -152,6 +157,6 @@ Widget cardDetailsTree() => Container(
             ),
           ],
         ),
-        itemCount: AllProductsData.data!.length,
+        itemCount: AllProductsData.data?.length,
       ),
     );

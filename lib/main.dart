@@ -22,8 +22,8 @@ void main() async {
 
 
   Widget startWidget;
-  if (await token == null ||
-      token == '') {
+  if (await CachHelper.getData(key: 'token') == null ||
+      CachHelper.getData(key: 'token') == '') {
     startWidget = LoginScreen();
   } else {
     startWidget = LayoutScreen();
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GeneralCubit()..getAllProducts(token: token)..createDataBase(),
+          create: (context) => GeneralCubit()..getAllProducts(token: token,context: context)..createDataBase(),
         ),
         BlocProvider(
           create: (context) => LoginCubit(),

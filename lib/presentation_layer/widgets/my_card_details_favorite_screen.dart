@@ -25,7 +25,7 @@ Widget MyFavoriteCard(context,index) => Column(
                   borderRadius: BorderRadiusDirectional.circular(10),
                 ),
                 child: Image(
-                  image: NetworkImage(GeneralCubit.get(context).favorites[index]['photo']),
+                  image: NetworkImage(GeneralCubit.get(context).favorites![index]['photo']),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -37,7 +37,7 @@ Widget MyFavoriteCard(context,index) => Column(
                 Container(
                   width:146,
                   child: Text(
-                    '${GeneralCubit.get(context).favorites[index]['name']}',
+                    '${GeneralCubit.get(context).favorites![index]['name']}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyText2!
@@ -46,7 +46,7 @@ Widget MyFavoriteCard(context,index) => Column(
                 ),
                 const SizedBox(height: 11.0,),
                 Text(
-                  '${GeneralCubit.get(context).favorites[index]['price']} EGP',
+                  '${GeneralCubit.get(context).favorites![index]['price']} EGP',
                   style: Theme.of(context).textTheme.bodyText2!
                       .copyWith(fontSize:15,color: primaryColor),
                 ),
@@ -76,7 +76,7 @@ Widget MyFavoriteCard(context,index) => Column(
                         ),
                       ),
                       Text(
-                        '${GeneralCubit.get(context).favorites[index]['amount']}',
+                        '${GeneralCubit.get(context).favorites![index]['amount']}',
                         style:const TextStyle(color: Colors.black),
                       ),
                       Container(
@@ -105,7 +105,11 @@ Widget MyFavoriteCard(context,index) => Column(
                 onPressed: ()
                 {
                   GeneralCubit.get(context)
-                      .deleteDataFromDataBase(id: GeneralCubit.get(context).favorites[index]['id']);
+                      .deleteDataFromDataBase(id: GeneralCubit.get(context).favorites![index]['id'])
+                      .then((value)
+                  {
+                    GeneralCubit.get(context).updateTotalFromDataBase(total: GeneralCubit.get(context).favorites![0]['total']-GeneralCubit.get(context).favorites![index]['amount']*GeneralCubit.get(context).favorites![index]['price']);
+                  });
                 },
                 icon: const Icon(
                   Icons.delete,

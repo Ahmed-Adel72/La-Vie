@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
+import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
@@ -85,6 +86,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   AllProductsData? allProductsData;
   void getAllProducts({
     required String token,
+    context,
   }) {
     emit(GetAllProductsLoadingState());
     DioHelper.getData(url: products, headers: {
@@ -94,6 +96,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
       allProductsData = AllProductsData.fromJson(value.data);
       print(value.data);
       emit(GetAllProductsSuccessState());
+      print(CachHelper.getData(key:'token'));
     }).catchError((error) {
       emit(GetAllProductsErrorState());
       print(error.toString());
@@ -105,6 +108,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     counter=AllProductsData.getNumberOfCard(index);
     counter++;
     AllProductsData.numbOfCard(counter,index);
+
     emit(ChangeCardState());
   }
 
@@ -125,22 +129,28 @@ class GeneralCubit extends Cubit<GeneralStates> {
   {
     for(int i=0;i<AllProductsData.data!.length;i++)
     {
-      if(AllProductsData.getProductId(i)==favorites[index]['productId'])
+      if(AllProductsData.getProductId(i)==favorites![index]['productId'])
       {
         counterMyCard=AllProductsData.getNumberOfCard(i);
         counterMyCard++;
         AllProductsData.numbOfCard(counterMyCard,i);
-        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index);
+        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index)
+            .then((value)
+        {
+          emit((ChangeCardState()));
+        }).then((value)
+        {
+          updateTotalFromDataBase(total:favorites![index]['total']+favorites![index]['price'],index: index);
+        });
       }
     }
-    emit(ChangeCardState());
   }
 
   void changeCounterMyCardMinus({required index,context})
   {
     for(int i=0;i<AllProductsData.data!.length;i++)
     {
-      if(AllProductsData.getProductId(i)==favorites[index]['productId'])
+      if(AllProductsData.getProductId(i)==favorites![index]['productId'])
       {
         counterMyCard=AllProductsData.getNumberOfCard(i);
         if(counterMyCard<=1)
@@ -150,25 +160,31 @@ class GeneralCubit extends Cubit<GeneralStates> {
           counterMyCard--;
         }
         AllProductsData.numbOfCard(counterMyCard,i);
-        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index);
+        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index)
+            .then((value)
+        {
+          emit(ChangeCardState());
+        }).then((value)
+        {
+          updateTotalFromDataBase(total:favorites![index]['total']-favorites![index]['price'],index: index);
+        });
       }
     }
-    emit(ChangeCardState());
   }
 
 ////////////////dataBase////////////////////
   Database? database;
-  List<Map> favorites=[];
+  List<Map> ?favorites=[];
   void createDataBase()
   {
     openDatabase(
-      'MyCard.db',
+      'LaVie.db',
       version: 1,
       onCreate: (database,version)
       {
          database
             .execute(
-            'CREATE TABLE MyCard (id INTEGER PRIMARY KEY, photo TEXT, name INTEGER, price INTEGER,amount INTEGER,productId TEXT)').then((value)
+            'CREATE TABLE LaVie (id INTEGER PRIMARY KEY, photo TEXT, name INTEGER, price INTEGER,amount INTEGER,productId TEXT,total INTEGER)').then((value)
         {
           print('database created');
         }).catchError((error)
@@ -200,11 +216,12 @@ class GeneralCubit extends Cubit<GeneralStates> {
         int? price,
         int? amount,
         String? productId,
+        int? total,
       })
   async {
     await database!.transaction((txn)
     async{
-      await txn.rawInsert('INSERT INTO MyCard(photo,name,price,amount,productId) VALUES("$photo","$name","$price","$amount","$productId")')
+      await txn.rawInsert('INSERT INTO LaVie(photo,name,price,amount,productId,total) VALUES("$photo","$name","$price","$amount","$productId","$total")')
           .then((value)
       {
         print('$value inserted successfully');
@@ -225,7 +242,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
 
   Future<List<Map>> getDataFromDataBase(database)async
   {
-    return await database!.rawQuery('SELECT * FROM MyCard');
+    return await database!.rawQuery('SELECT * FROM LaVie');
 
   }
 
@@ -234,7 +251,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   required int id,
 })async
   {
-     await database!.rawDelete('DELETE FROM MyCard WHERE id = $id');
+     await database!.rawDelete('DELETE FROM LaVie WHERE id = $id');
      emit(DeleteDataBaseSuccessState());
      getDataFromDataBase(database).then((value)
      {
@@ -246,15 +263,28 @@ class GeneralCubit extends Cubit<GeneralStates> {
 
   Future<void> updateDataFromDataBase(
       {
-        String? photo,
-        String? name,
-        int? price,
         int? amount,
-        String? productId,
+        num? total,
         int? index,
       })async
   {
-    await database!.rawUpdate('UPDATE MyCard SET amount = $amount WHERE id=${index!+1}');
+    await database!.rawUpdate('UPDATE LaVie SET amount = $amount WHERE id=${index!+1}');
+    await database!.rawUpdate('UPDATE LaVie SET total = $total');
+    emit(UpdateDataBaseSuccessState());
+    getDataFromDataBase(database).then((value)
+    {
+      favorites=value;
+      print(favorites);
+      emit(GetDataBaseSuccessState());
+    });
+  }
+  Future<void> updateTotalFromDataBase(
+      {
+        num? total,
+        int? index,
+      })async
+  {
+    await database!.rawUpdate('UPDATE LaVie SET total = $total');
     emit(UpdateDataBaseSuccessState());
     getDataFromDataBase(database).then((value)
     {
@@ -264,5 +294,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 /////////////end of dataBase/////////////////
+//   num total=0;
+//    void countTheTotal()
+//   {
+//
+//     for(int i=0;i<favorites.length;i++)
+//     {
+//        total+=favorites[i]['amount']*favorites[i]['price'];
+//     }
+//   }
+
 
 }

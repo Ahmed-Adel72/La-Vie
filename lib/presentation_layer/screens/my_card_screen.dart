@@ -36,7 +36,7 @@ class MyCardScreen extends StatelessWidget {
               ),
             ),
           ),
-          body:GeneralCubit.get(context).favorites.isEmpty?Container(
+          body:GeneralCubit.get(context).favorites!.isEmpty?Container(
             alignment: AlignmentDirectional.center,
             height: 200.0,
             width: 300,
@@ -51,7 +51,7 @@ class MyCardScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => MyFavoriteCard(context,index),
                   separatorBuilder:(context, index) => const SizedBox(height: 10.0,),
-                  itemCount:GeneralCubit.get(context).favorites.length,
+                  itemCount:GeneralCubit.get(context).favorites!.length,
                 ),
               ),
               Column(
@@ -68,8 +68,9 @@ class MyCardScreen extends StatelessWidget {
                               .copyWith(fontSize: 18,color: Colors.grey[800]),
                         ),
                         const Spacer(),
+                        GeneralCubit.get(context).favorites![0]['total']==null?const Text(''):
                         Text(
-                          '180,000 EGP',
+                          '${GeneralCubit.get(context).favorites![0]['total']} EGP',
                           style:GoogleFonts.inter(fontSize: 16,color: primaryColor),
                         ),
                       ],

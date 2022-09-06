@@ -27,3 +27,5 @@ class DeleteDataBaseSuccessState extends GeneralStates {}
 class InsertDataBaseSuccessState extends GeneralStates {}
 
 class UpdateDataBaseSuccessState extends GeneralStates {}
+
+class CountTotalSuccessState extends GeneralStates {}
