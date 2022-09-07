@@ -7,6 +7,7 @@ import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/screens/my_card_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/widgets/card_details_home_screen.dart';
+import 'package:la_vie/presentation_layer/widgets/category.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -98,34 +99,10 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(
                   height: 40.0,
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Row(
-                      children: [
-                        Container(
-                          height: 30.0,
-                          width: 80.0,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Center(
-                              child: Text(
-                            'seeds',
-                            style: Theme.of(context).textTheme.bodyText2!,
-                          )),
-                        ),
-                      ],
-                    ),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 10.0,
-                    ),
-                    itemCount: 10,
-                  ),
+                  child: selectCategory(),
                 ),
               ),
-              cardDetailsTree(),
+              cardDetailsTree(context),
             ],
           ),
         );

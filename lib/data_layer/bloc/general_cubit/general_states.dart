@@ -29,3 +29,5 @@ class InsertDataBaseSuccessState extends GeneralStates {}
 class UpdateDataBaseSuccessState extends GeneralStates {}
 
 class CountTotalSuccessState extends GeneralStates {}
+
+class ChangeSelectIndexSuccessState extends GeneralStates {}

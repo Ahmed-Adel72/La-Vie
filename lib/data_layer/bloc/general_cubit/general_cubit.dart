@@ -95,6 +95,8 @@ class GeneralCubit extends Cubit<GeneralStates> {
     }).then((value) {
       allProductsData = AllProductsData.fromJson(value.data);
       print(value.data);
+      print("plaaaaaaaaaaaaaaaants");
+      print(AllProductsData.plants);
       emit(GetAllProductsSuccessState());
       print(CachHelper.getData(key:'token'));
     }).catchError((error) {
@@ -105,22 +107,22 @@ class GeneralCubit extends Cubit<GeneralStates> {
 
   int counter=1;
   void changeCounterCardPlus({required index,}) {
-    counter=AllProductsData.getNumberOfCard(index);
+    counter=getAmountOfProduct(index)!;
     counter++;
-    AllProductsData.numbOfCard(counter,index);
+    updateAmountOfProduct(counter,index);
 
     emit(ChangeCardState());
   }
 
   void changeCounterCardMinus({required index,}) {
-    counter=AllProductsData.getNumberOfCard(index);
+    counter=getAmountOfProduct(index)!;
     if(counter<=1)
     {
       counter=1;
     }else {
       counter--;
     }
-    AllProductsData.numbOfCard(counter,index);
+    updateAmountOfProduct(counter,index);
     emit(ChangeCardState());
   }
 
@@ -294,15 +296,184 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 /////////////end of dataBase/////////////////
-//   num total=0;
-//    void countTheTotal()
-//   {
-//
-//     for(int i=0;i<favorites.length;i++)
-//     {
-//        total+=favorites[i]['amount']*favorites[i]['price'];
-//     }
-//   }
+
+  int selectIndex=0;
+  void changeSelectIndex(int index)
+  {
+    selectIndex=index;
+    emit(ChangeSelectIndexSuccessState());
+  }
+  /////////////filter category//////////////
+
+String? getImageOfProduct(int index)
+{
+  switch(selectIndex)
+  {
+    case 0:
+      {
+        return AllProductsData.getMainImage(index);
+      }
+    case 1:
+      {
+        return AllProductsData.getPlantImage(index);
+      }
+    case 2:
+      {
+        return AllProductsData.getSeedImage(index);
+      }
+    case 3:
+      {
+        return AllProductsData.getToolImage(index);
+      }
+  }
+  return noImage;
+}
+
+  String? getNameOfProduct(int index)
+  {
+    switch(selectIndex)
+    {
+      case 0:
+        {
+          return AllProductsData.getMainName(index);
+        }
+      case 1:
+        {
+          return AllProductsData.getPlantName(index);
+        }
+      case 2:
+        {
+          return AllProductsData.getSeedName(index);
+        }
+      case 3:
+        {
+          return AllProductsData.getToolName(index);
+        }
+
+    }
+    return 'no title';
+  }
+
+  int? getPriceOfProduct(int index)
+  {
+    switch(selectIndex)
+    {
+      case 0:
+        {
+          return AllProductsData.getPrice(index);
+        }
+      case 1:
+        {
+          return AllProductsData.getPlantPrice(index);
+        }
+      case 2:
+        {
+          return AllProductsData.getSeedPrice(index);
+        }
+      case 3:
+        {
+          return AllProductsData.getToolPrice(index);
+        }
+    }
+    return 0;
+  }
+
+  int? getAmountOfProduct(int index)
+  {
+    switch(selectIndex)
+    {
+      case 0:
+        {
+          return AllProductsData.getNumberOfCard(index);
+        }
+      case 1:
+        {
+          return AllProductsData.getPlantAmount(index);
+        }
+      case 2:
+        {
+          return AllProductsData.getSeedAmount(index);
+        }
+      case 3:
+        {
+          return AllProductsData.getToolAmount(index);
+        }
+    }
+    return 0;
+  }
+
+  String? getIdOfProduct(int index)
+  {
+    switch(selectIndex)
+    {
+      case 0:
+        {
+          return AllProductsData.getProductId(index);
+        }
+      case 1:
+        {
+          return AllProductsData.getPlantId(index);
+        }
+      case 2:
+        {
+          return AllProductsData.getSeedId(index);
+        }
+      case 3:
+        {
+          return AllProductsData.getToolId(index);
+        }
+    }
+    return '';
+  }
+
+  int? updateAmountOfProduct(int number, int index)
+  {
+    switch(selectIndex)
+    {
+      case 0:
+        {
+          return AllProductsData.numbOfCard(number,index);
+        }
+      case 1:
+        {
+          return AllProductsData.updatePlantAmount(number,index);
+        }
+      case 2:
+        {
+          return AllProductsData.updateSeedAmount(number,index);
+        }
+      case 3:
+        {
+          return AllProductsData.updateToolAmount(number,index);
+        }
+    }
+    return 0;
+  }
+
+   getLengthOfProduct()
+  {
+    switch(selectIndex)
+    {
+      case 0:
+        {
+          return AllProductsData.data?.length;
+        }
+      case 1:
+        {
+          return AllProductsData.plants?.length;
+        }
+      case 2:
+        {
+          return AllProductsData.seeds?.length;
+        }
+      case 3:
+        {
+          return AllProductsData.tools?.length;
+        }
+    }
+    return 0;
+  }
+
 
 
 }

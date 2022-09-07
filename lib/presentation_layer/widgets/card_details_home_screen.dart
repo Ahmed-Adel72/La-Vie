@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 
-Widget cardDetailsTree() => Container(
+Widget cardDetailsTree(context) => Container(
       height: 425,
       child: GridView.builder(
         shrinkWrap: true,
@@ -50,7 +50,7 @@ Widget cardDetailsTree() => Container(
                             padding:
                                 const EdgeInsets.only(top: 10.0, left: 10.0),
                             child: Text(
-                                '${AllProductsData.getNumberOfCard(index)}',
+                                '${GeneralCubit.get(context).getAmountOfProduct(index)}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2!
@@ -80,7 +80,7 @@ Widget cardDetailsTree() => Container(
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          AllProductsData.getMainName(index),
+                          '${GeneralCubit.get(context).getNameOfProduct(index)}',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2!
@@ -92,7 +92,7 @@ Widget cardDetailsTree() => Container(
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          '${AllProductsData.getPrice(index)}EGP',
+                          '${GeneralCubit.get(context).getPriceOfProduct(index)} EGP',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2!
@@ -115,12 +115,12 @@ Widget cardDetailsTree() => Container(
                             onPressed: ()
                             {
                               GeneralCubit.get(context).insertToDataBase(
-                                photo: AllProductsData.getMainImage(index),
-                                name: AllProductsData.getMainName(index),
-                                price: AllProductsData.getPrice(index),
-                                amount: AllProductsData.getNumberOfCard(index),
+                                photo: GeneralCubit.get(context).getImageOfProduct(index),
+                                name: GeneralCubit.get(context).getNameOfProduct(index),
+                                price: GeneralCubit.get(context).getPriceOfProduct(index),
+                                amount: GeneralCubit.get(context).getAmountOfProduct(index),
                                 productId: AllProductsData.getProductId(index),
-                                total:AllProductsData.getNumberOfCard(index)*AllProductsData.getPrice(index),
+                                total:GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!,
                               ).then((value)
                               {
                                 GeneralCubit.get(context).favorites!.isEmpty?const SizedBox():
@@ -152,11 +152,11 @@ Widget cardDetailsTree() => Container(
                   width: 80.0,
                   alignment: Alignment.topLeft,
                   child: Image(
-                    image: NetworkImage(AllProductsData.getMainImage(index)),
+                    image: NetworkImage('${GeneralCubit.get(context).getImageOfProduct(index)}'),
                   )),
             ),
           ],
         ),
-        itemCount: AllProductsData.data?.length,
+        itemCount: GeneralCubit.get(context).getLengthOfProduct(),
       ),
     );
