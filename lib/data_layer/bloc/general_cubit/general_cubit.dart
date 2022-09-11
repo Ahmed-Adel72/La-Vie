@@ -97,6 +97,10 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(value.data);
       print("plaaaaaaaaaaaaaaaants");
       print(AllProductsData.plants);
+      print("seeeeeeeeeeeeeeeds");
+      print(AllProductsData.seeds);
+      print("tooooooooooooools");
+      print(AllProductsData.tools);
       emit(GetAllProductsSuccessState());
       print(CachHelper.getData(key:'token'));
     }).catchError((error) {
@@ -131,12 +135,12 @@ class GeneralCubit extends Cubit<GeneralStates> {
   {
     for(int i=0;i<AllProductsData.data!.length;i++)
     {
-      if(AllProductsData.getProductId(i)==favorites![index]['productId'])
+      if(AllProductsData.getMainProductId(i)==favorites![index]['productId'])
       {
-        counterMyCard=AllProductsData.getNumberOfCard(i);
+        counterMyCard=AllProductsData.getMainAmountOfCard(i);
         counterMyCard++;
-        AllProductsData.numbOfCard(counterMyCard,i);
-        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index)
+        AllProductsData.updateAmountOfCard(counterMyCard,i);
+        updateDataFromDataBase(amount:AllProductsData.getMainAmountOfCard(i),index: index)
             .then((value)
         {
           emit((ChangeCardState()));
@@ -152,17 +156,21 @@ class GeneralCubit extends Cubit<GeneralStates> {
   {
     for(int i=0;i<AllProductsData.data!.length;i++)
     {
-      if(AllProductsData.getProductId(i)==favorites![index]['productId'])
+      if(AllProductsData.getMainProductId(i)==favorites![index]['productId'])
       {
-        counterMyCard=AllProductsData.getNumberOfCard(i);
+        if(favorites![0]['total']<=0)
+        {
+          favorites![0]['total']=0;
+        }
+        counterMyCard=AllProductsData.getMainAmountOfCard(i);
         if(counterMyCard<=1)
         {
-          counterMyCard=1;
+          counterMyCard=0;
         }else {
           counterMyCard--;
         }
-        AllProductsData.numbOfCard(counterMyCard,i);
-        updateDataFromDataBase(amount:AllProductsData.getNumberOfCard(i),index: index)
+        AllProductsData.updateAmountOfCard(counterMyCard,i);
+        updateDataFromDataBase(amount:AllProductsData.getMainAmountOfCard(i),index: index)
             .then((value)
         {
           emit(ChangeCardState());
@@ -360,7 +368,7 @@ String? getImageOfProduct(int index)
     {
       case 0:
         {
-          return AllProductsData.getPrice(index);
+          return AllProductsData.getMainPrice(index);
         }
       case 1:
         {
@@ -384,7 +392,7 @@ String? getImageOfProduct(int index)
     {
       case 0:
         {
-          return AllProductsData.getNumberOfCard(index);
+          return AllProductsData.getMainAmountOfCard(index);
         }
       case 1:
         {
@@ -397,6 +405,7 @@ String? getImageOfProduct(int index)
       case 3:
         {
           return AllProductsData.getToolAmount(index);
+
         }
     }
     return 0;
@@ -408,7 +417,7 @@ String? getImageOfProduct(int index)
     {
       case 0:
         {
-          return AllProductsData.getProductId(index);
+          return AllProductsData.getMainProductId(index);
         }
       case 1:
         {
@@ -432,7 +441,7 @@ String? getImageOfProduct(int index)
     {
       case 0:
         {
-          return AllProductsData.numbOfCard(number,index);
+          return AllProductsData.updateAmountOfCard(number,index);
         }
       case 1:
         {

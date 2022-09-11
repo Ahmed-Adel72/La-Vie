@@ -118,13 +118,13 @@ Widget cardDetailsTree(context) => Container(
                                 photo: GeneralCubit.get(context).getImageOfProduct(index),
                                 name: GeneralCubit.get(context).getNameOfProduct(index),
                                 price: GeneralCubit.get(context).getPriceOfProduct(index),
-                                amount: GeneralCubit.get(context).getAmountOfProduct(index),
-                                productId: AllProductsData.getProductId(index),
+                                amount:GeneralCubit.get(context).getAmountOfProduct(index),
+                                productId: GeneralCubit.get(context).getIdOfProduct(index),
                                 total:GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!,
                               ).then((value)
                               {
                                 GeneralCubit.get(context).favorites!.isEmpty?const SizedBox():
-                                GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+AllProductsData.getNumberOfCard(index)*AllProductsData.getPrice(index) );
+                                GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+AllProductsData.getMainAmountOfCard(index)*AllProductsData.getMainPrice(index) );
                               });
                             },
                             child: Text(

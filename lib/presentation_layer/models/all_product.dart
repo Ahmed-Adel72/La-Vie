@@ -32,7 +32,7 @@ class AllProductsData {
               'name':element['name'],
               'price':element['price'],
               'productId':element['productId'],
-              'amount':1,
+              'amount':element['seed']['amount'],
             });
 
       } else if (element['type'] == 'PLANT') {
@@ -43,7 +43,7 @@ class AllProductsData {
               'name':element['name'],
               'price':element['price'],
               'productId':element['productId'],
-              'amount':1,
+              'amount':element['plant']['amount'],
             });
 
       } else {
@@ -54,16 +54,12 @@ class AllProductsData {
               'name':element['name'],
               'price':element['price'],
               'productId':element['productId'],
-              'amount':1,
+              'amount':element['tool']['amount'],
             });
       }
     });
 
   }
-  static String getMainProductId(int index) {
-    return productId = data![index]['productId'];
-  }
-
   static String getMainName(int index) {
     return name = data![index]['name'];
   }
@@ -76,37 +72,7 @@ class AllProductsData {
     return imageUrl =baseUrl + data![index]['imageUrl'];
   }
 
-  // static String getImage(int index) {
-  //   if (data?[index]['type'] == 'PLANT') {
-  //     if (data?[index]['plant']['imageUrl'] == '') {
-  //       return noImage;
-  //     }
-  //     return baseUrl + data?[index]['plant']['imageUrl'];
-  //   } else if (data?[index]['type'] == 'SEED') {
-  //     if (data?[index]['seed']['imageUrl'] == '') {
-  //       return noImage;
-  //     }
-  //     return baseUrl + data?[index]['seed']['imageUrl'];
-  //   } else if (data?[index]['type'] == 'TOOL') {
-  //     if (data?[index]['tool']['imageUrl'] == '') {
-  //       return noImage;
-  //     }
-  //     return baseUrl + data?[index]['tool']['imageUrl'];
-  //   }
-  //   return noImage;
-  // }
-
-  // static String getName(int index) {
-  //   if (data?[index]['type'] == 'PLANT') {
-  //     return data?[index]['plant']['name'];
-  //   } else if (data?[index]['type'] == 'SEED') {
-  //     return data?[index]['seed']['name'];
-  //   } else if (data?[index]['type'] == 'TOOL') {
-  //     return data?[index]['tool']['name'];
-  //   }
-  //   return 'no name';
-  // }
-  static int getNumberOfCard(int index) {
+  static int getMainAmountOfCard(int index) {
     if (data?[index]['type'] == 'PLANT') {
       return data?[index]['plant']['amount'];
     } else if (data?[index]['type'] == 'SEED') {
@@ -117,19 +83,37 @@ class AllProductsData {
     return 1;
   }
 
-  static int getPrice(int index) {
+  static int getMainPrice(int index) {
     return data?[index]['price'];
   }
-  static String getProductId(int index) {
+  static String getMainProductId(int index) {
     return data?[index]['productId'];
   }
-  static numbOfCard(int number,int index) {
+  static updateAmountOfCard(int number,int index) {
      if (data?[index]['type'] == 'PLANT') {
         data?[index]['plant']['amount']=number;
+        for(int i=0;i<plants!.length;i++)
+        {
+          if (plants?[i]['productId']==data?[index]['productId']) {
+            plants?[i]['amount']=number;
+          }
+        }
      } else if (data?[index]['type'] == 'SEED') {
         data?[index]['seed']['amount']=number;
+        for(int i=0;i<seeds!.length;i++)
+        {
+          if (seeds?[i]['productId']==data?[index]['productId']) {
+            seeds?[i]['amount']=number;
+          }
+        }
      } else if (data?[index]['type'] == 'TOOL') {
         data?[index]['tool']['amount']=number;
+        for(int i=0;i<tools!.length;i++)
+        {
+          if (tools?[i]['productId']==data?[index]['productId']) {
+            tools?[i]['amount']=number;
+          }
+        }
      }
   }
 
@@ -163,7 +147,13 @@ class AllProductsData {
 
   static updatePlantAmount(int number,int index)
   {
-     plants?[index]['amount']=number;
+    plants?[index]['amount']=number;
+    for(int i=0;i<data!.length;i++)
+    {
+      if (data?[i]['productId'] == plants?[index]['productId']) {
+        data?[i]['plant']['amount']=number;
+      }
+    }
   }
 
 ////////////////fetch seeds/////////////
@@ -196,6 +186,12 @@ class AllProductsData {
   static updateSeedAmount(int number,int index)
   {
     seeds?[index]['amount']=number;
+    for(int i=0;i<data!.length;i++)
+    {
+      if (data?[i]['productId'] == seeds?[index]['productId']) {
+        data?[i]['seed']['amount']=number;
+      }
+    }
   }
 
 ////////////////fetch tools/////////////
@@ -228,6 +224,12 @@ class AllProductsData {
   static updateToolAmount(int number,int index)
   {
     tools?[index]['amount']=number;
+    for(int i=0;i<data!.length;i++)
+    {
+      if (data?[i]['productId'] == tools?[index]['productId']) {
+        data?[i]['tool']['amount']=number;
+      }
+    }
   }
 
 
