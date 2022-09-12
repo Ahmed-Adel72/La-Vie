@@ -31,3 +31,9 @@ class UpdateDataBaseSuccessState extends GeneralStates {}
 class CountTotalSuccessState extends GeneralStates {}
 
 class ChangeSelectIndexSuccessState extends GeneralStates {}
+
+class GetAllBlogsLoadingState extends GeneralStates {}
+
+class GetAllBlogsSuccessState extends GeneralStates {}
+
+class GetAllBlogsErrorState extends GeneralStates {}

@@ -12,6 +12,7 @@ Widget selectCategory()=>ListView.separated(
         onTap: ()
         {
           GeneralCubit.get(context).changeSelectIndex(index);
+          // GeneralCubit.get(context).getInMyCart(index);
         },
         child: Container(
           height: 30.0,
@@ -39,9 +40,43 @@ Widget selectCategory()=>ListView.separated(
 );
 
 List<String> category=
-[
-  'All',
-  'Plants',
-  'Seeds',
-  'Tools',
-];
+['All', 'Plants', 'Seeds', 'Tools',];
+
+Widget selectCategoryOfBlog()=>ListView.separated(
+  physics: const BouncingScrollPhysics(),
+  scrollDirection: Axis.horizontal,
+  itemBuilder: (context, index) => Row(
+    children: [
+      InkWell(
+        onTap: ()
+        {
+          GeneralCubit.get(context).changeSelectIndexOfBlog(index);
+          // GeneralCubit.get(context).getInMyCart(index);
+        },
+        child: Container(
+          height: 30.0,
+          width: 80.0,
+          decoration: BoxDecoration(
+            color:GeneralCubit.get(context).selectIndexOfBlog==index?Colors.grey[100]: Colors.grey[300],
+            borderRadius: BorderRadius.circular(10.0),
+            border:GeneralCubit.get(context).selectIndexOfBlog==index? Border.all(color: primaryColor)
+                :Border.all(color: Colors.white),
+          ),
+          child: Center(
+              child: Text(
+                categoryOfBlog[index],
+                style:GeneralCubit.get(context).selectIndexOfBlog==index? Theme.of(context).textTheme.bodyText2!.copyWith(color: primaryColor)
+                    :Theme.of(context).textTheme.bodyText2!,
+              )),
+        ),
+      ),
+    ],
+  ),
+  separatorBuilder: (context, index) => const SizedBox(
+    width: 10.0,
+  ),
+  itemCount: 3,
+);
+
+List<String> categoryOfBlog=
+['Plants', 'Seeds', 'Tools',];

@@ -5,13 +5,15 @@ import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
+import 'package:la_vie/presentation_layer/models/all_blogs.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
 import 'package:la_vie/presentation_layer/screens/home_screen.dart';
 import 'package:la_vie/presentation_layer/screens/notification_screen.dart';
 import 'package:la_vie/presentation_layer/screens/profile_screen.dart';
 import 'package:la_vie/presentation_layer/screens/scan_screen.dart';
-import 'package:la_vie/presentation_layer/screens/tree_screen.dart';
+import 'package:la_vie/presentation_layer/screens/blogs_screen.dart';
+import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -47,7 +49,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   ];
 
   List<Widget> screen = [
-    TreeScreen(),
+    BlogsScreen(),
     ScanScreen(),
     HomeScreen(),
     NotificationScreen(),
@@ -101,10 +103,35 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(AllProductsData.seeds);
       print("tooooooooooooools");
       print(AllProductsData.tools);
+      // print("BBBlooooooooooooooooogssss");
+      // print(allBlogs!.data!.plants);
       emit(GetAllProductsSuccessState());
       print(CachHelper.getData(key:'token'));
     }).catchError((error) {
       emit(GetAllProductsErrorState());
+      print(error.toString());
+    });
+  }
+
+  AllBlogs? allBlogs;
+  void getAllBlogs({
+    required String token,
+    context,
+  }) {
+    emit(GetAllBlogsLoadingState());
+    DioHelper.getData(
+        url: blogs,
+        headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    }).then((value) {
+      allBlogs = AllBlogs.fromJson(value.data);
+      print("BBBlooooooooooooooooogssss");
+      print(AllBlogs.plants);
+      // print(allBlogs!.data!.plants);
+      emit(GetAllBlogsSuccessState());
+    }).catchError((error) {
+      emit(GetAllBlogsErrorState());
       print(error.toString());
     });
   }
@@ -181,6 +208,17 @@ class GeneralCubit extends Cubit<GeneralStates> {
       }
     }
   }
+  // void changeInMyCartButton({index})
+  // {
+  //   for(int i=0;i<AllProductsData.data!.length;i++)
+  //   {
+  //     if(AllProductsData.getMainProductId(i)==favorites![index]['productId'])
+  //     {
+  //       AllProductsData.updateInMyCard(i, !AllProductsData.inMyCard(i));
+  //         emit((ChangeCardState()));
+  //     }
+  //   }
+  // }
 
 ////////////////dataBase////////////////////
   Database? database;
@@ -241,6 +279,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
           favorites=value;
           print(favorites);
           emit(GetDataBaseSuccessState());
+          showToast(message: 'Added to my cart', toastState: ToastState.success);
         });
       }).catchError((error)
       {
@@ -263,6 +302,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   {
      await database!.rawDelete('DELETE FROM LaVie WHERE id = $id');
      emit(DeleteDataBaseSuccessState());
+     showToast(message: 'Deleted', toastState: ToastState.error);
      getDataFromDataBase(database).then((value)
      {
        favorites=value;
@@ -311,7 +351,13 @@ class GeneralCubit extends Cubit<GeneralStates> {
     selectIndex=index;
     emit(ChangeSelectIndexSuccessState());
   }
-  /////////////filter category//////////////
+  int selectIndexOfBlog=0;
+  void changeSelectIndexOfBlog(int index)
+  {
+    selectIndexOfBlog=index;
+    emit(ChangeSelectIndexSuccessState());
+  }
+  /////////////filter AllProducts//////////////
 
 String? getImageOfProduct(int index)
 {
@@ -482,6 +528,102 @@ String? getImageOfProduct(int index)
     }
     return 0;
   }
+//////////////////fetch blogs////////////
+  String? getBlogName(int index)
+  {
+    switch(selectIndexOfBlog)
+    {
+      case 0:
+        {
+          return AllBlogs.getBlogPlantName(index);
+        }
+      case 1:
+        {
+          return AllBlogs.getBlogSeedName(index);
+        }
+      case 2:
+        {
+          return AllBlogs.getBlogToolName(index);
+        }
+    }
+    return '';
+  }
+
+  String? getBlogImage(int index)
+  {
+    switch(selectIndexOfBlog)
+    {
+      case 0:
+        {
+          return AllBlogs.getBlogPlantImage(index);
+        }
+      case 1:
+        {
+          return AllBlogs.getBlogSeedImage(index);
+        }
+      case 2:
+        {
+          return AllBlogs.getBlogToolImage(index);
+        }
+    }
+    return '';
+  }
+  String? getBlogDescription(int index)
+  {
+    switch(selectIndexOfBlog)
+    {
+      case 0:
+        {
+          return AllBlogs.getBlogPlantDescription(index);
+        }
+      case 1:
+        {
+          return AllBlogs.getBlogSeedDescription(index);
+        }
+      case 2:
+        {
+          return AllBlogs.getBlogToolDescription(index);
+        }
+    }
+    return '';
+  }
+
+  getLengthOfBlog()
+  {
+    switch(selectIndexOfBlog)
+    {
+      case 0:
+        {
+          return AllBlogs.plants?.length;
+        }
+      case 1:
+        {
+          return AllBlogs.seeds?.length;
+        }
+      case 2:
+        {
+          return AllBlogs.tools?.length;
+        }
+    }
+    return 0;
+  }
+
+  // getInMyCart(index)
+  // {
+  //   switch(selectIndex)
+  //   {
+  //     case 0:
+  //       {
+  //         return AllProductsData.inMyCard(index);
+  //       }
+  //     case 1:
+  //       {
+  //         return AllProductsData.plantInMyCart(index);
+  //       }
+  //
+  //   }
+  //   return 0;
+  // }
 
 
 

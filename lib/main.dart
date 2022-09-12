@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GeneralCubit()..getAllProducts(token: token,context: context)..createDataBase(),
+          create: (context) => GeneralCubit()..getAllProducts(token: token,context: context)..createDataBase()..getAllBlogs(token: token),
         ),
         BlocProvider(
           create: (context) => LoginCubit(),

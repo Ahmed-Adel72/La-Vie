@@ -25,7 +25,7 @@ class AllProductsData {
     data?.forEach((element)
     {
       if (element['type'] == 'SEED') {
-        element['seed'].addAll({'amount': 1});
+        element['seed'].addAll({'amount': 1,'isFavorite':false});
         seeds?.add(
             {
               'image':element['imageUrl'],
@@ -33,10 +33,11 @@ class AllProductsData {
               'price':element['price'],
               'productId':element['productId'],
               'amount':element['seed']['amount'],
+              'isFavorite':element['seed']['isFavorite'],
             });
 
       } else if (element['type'] == 'PLANT') {
-        element['plant'].addAll({'amount': 1});
+        element['plant'].addAll({'amount': 1,'isFavorite':false});
         plants?.add(
             {
               'image':element['imageUrl'],
@@ -44,10 +45,11 @@ class AllProductsData {
               'price':element['price'],
               'productId':element['productId'],
               'amount':element['plant']['amount'],
+              'isFavorite':element['plant']['isFavorite'],
             });
 
       } else {
-        element['tool'].addAll({'amount': 1});
+        element['tool'].addAll({'amount': 1,'isFavorite':false});
         tools?.add(
             {
               'image':element['imageUrl'],
@@ -55,6 +57,7 @@ class AllProductsData {
               'price':element['price'],
               'productId':element['productId'],
               'amount':element['tool']['amount'],
+              'isFavorite':element['tool']['isFavorite'],
             });
       }
     });
@@ -82,6 +85,36 @@ class AllProductsData {
     }
     return 1;
   }
+
+  // static bool inMyCard(int index) {
+  //   if (data?[index]['type'] == 'PLANT') {
+  //     return data?[index]['plant']['isFavorite'];
+  //   } else if (data?[index]['type'] == 'SEED') {
+  //     return data?[index]['seed']['isFavorite'];
+  //   } else if (data?[index]['type'] == 'TOOL') {
+  //     return data?[index]['tool']['isFavorite'];
+  //   }
+  //   return false;
+  // }
+
+  // static bool updateInMyCard(int index,bool isFavorite) {
+  //   if (data?[index]['type'] == 'PLANT') {
+  //      data?[index]['plant']['isFavorite']=isFavorite;
+  //      for(int i=0;i<plants!.length;i++)
+  //      {
+  //        if (plants?[i]['productId']==data?[index]['productId']) {
+  //          plants?[i]['isFavorite']=isFavorite;
+  //        }
+  //      }
+  //   } else if (data?[index]['type'] == 'SEED') {
+  //      data?[index]['seed']['isFavorite']=isFavorite;
+  //   } else if (data?[index]['type'] == 'TOOL') {
+  //      data?[index]['tool']['isFavorite']=isFavorite;
+  //   }
+  //   return false;
+  // }
+
+
 
   static int getMainPrice(int index) {
     return data?[index]['price'];
@@ -152,6 +185,22 @@ class AllProductsData {
     {
       if (data?[i]['productId'] == plants?[index]['productId']) {
         data?[i]['plant']['amount']=number;
+      }
+    }
+  }
+
+  static bool plantInMyCart(int index)
+  {
+    return plants?[index]['isFavorite'];
+  }
+
+  static updatePlantInMyCart(bool number,int index)
+  {
+    plants?[index]['isFavorite']=number;
+    for(int i=0;i<data!.length;i++)
+    {
+      if (data?[i]['productId'] == plants?[index]['productId']) {
+        data?[i]['plant']['isFavorite']=number;
       }
     }
   }

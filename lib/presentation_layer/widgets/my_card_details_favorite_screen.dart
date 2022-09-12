@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
-Widget MyFavoriteCard(context,index) => Column(
+Widget myFavoriteCard(context,index) => Column(
   children:
   [
 
@@ -109,7 +109,12 @@ Widget MyFavoriteCard(context,index) => Column(
                       .then((value)
                   {
                     GeneralCubit.get(context).updateTotalFromDataBase(total: GeneralCubit.get(context).favorites![0]['total']-GeneralCubit.get(context).favorites![index]['amount']*GeneralCubit.get(context).favorites![index]['price']);
-                  });
+                  })
+                  //     .then((value)
+                  // {
+                  //   GeneralCubit.get(context).changeInMyCartButton(index: index);
+                  // })
+                  ;
                 },
                 icon: const Icon(
                   Icons.delete,

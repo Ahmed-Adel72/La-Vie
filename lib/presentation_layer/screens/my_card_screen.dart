@@ -36,11 +36,37 @@ class MyCardScreen extends StatelessWidget {
               ),
             ),
           ),
-          body:GeneralCubit.get(context).favorites!.isEmpty?Container(
-            alignment: AlignmentDirectional.center,
-            height: 200.0,
-            width: 300,
-            child: Image.asset('assets/images/no_card.png'),
+          body:GeneralCubit.get(context).favorites!.isEmpty?Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:
+              [
+                Container(
+                  height: 200,
+                  width: 250,
+                    child: Image.asset('assets/images/no_card.png')),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                    'Your cart is empty',
+                  style: Theme.of(context).textTheme.bodyText2!.
+                  copyWith(fontSize: 24,color:const Color(0xff212121),fontWeight:FontWeight.w700),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  width: 260,
+                  child: Text(
+                    'Sorry, the keyword you entered cannot found, please check again or search with another keyword.',
+                    style: Theme.of(context).textTheme.bodyText2!.
+                    copyWith(fontSize: 18,fontWeight:FontWeight.w400),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
           ): Column(
             children:
             [
@@ -49,7 +75,7 @@ class MyCardScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => MyFavoriteCard(context,index),
+                  itemBuilder: (context, index) => myFavoriteCard(context,index),
                   separatorBuilder:(context, index) => const SizedBox(height: 10.0,),
                   itemCount:GeneralCubit.get(context).favorites!.length,
                 ),
@@ -58,25 +84,25 @@ class MyCardScreen extends StatelessWidget {
                 children:
                 [
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
                     child: Row(
                       children:
                       [
                         Text(
                           'Total',
                           style: Theme.of(context).textTheme.bodyText2!
-                              .copyWith(fontSize: 18,color: Colors.grey[800]),
+                              .copyWith(fontSize: 20,color: Colors.grey[900],fontWeight: FontWeight.w600),
                         ),
                         const Spacer(),
                         GeneralCubit.get(context).favorites![0]['total']==null?const Text(''):
                         Text(
                           '${GeneralCubit.get(context).favorites![0]['total']} EGP',
-                          style:GoogleFonts.inter(fontSize: 16,color: primaryColor),
+                          style:GoogleFonts.inter(fontSize: 16.245,color: primaryColor,fontWeight: FontWeight.w800),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12,),
+                  const SizedBox(height: 20,),
                   Container(
                     height: 43.0,
                     width: 280.0,

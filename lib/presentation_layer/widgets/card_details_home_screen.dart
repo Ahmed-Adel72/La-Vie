@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
-import 'package:la_vie/presentation_layer/models/all_product.dart';
 
 Widget cardDetailsTree(context) => Container(
       height: 425,
@@ -104,7 +103,24 @@ Widget cardDetailsTree(context) => Container(
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 12, bottom: 8, top: 5),
-                        child: Container(
+                        child:
+                        // AllProductsData.inMyCard(index)? Container(
+                        //   height: 28.0,
+                        //   width: 135.0,
+                        //   child: Text(
+                        //     'In my cart',
+                        //     style: Theme.of(context)
+                        //         .textTheme
+                        //         .bodyText1!
+                        //         .copyWith(
+                        //       color: primaryColor,
+                        //       fontSize: 16.0,
+                        //       fontWeight: FontWeight.w600,
+                        //     ),
+                        //     textAlign: TextAlign.center,
+                        //   ),
+                        // ):
+                        Container(
                           height: 28.0,
                           width: 135.0,
                           decoration: BoxDecoration(
@@ -124,18 +140,23 @@ Widget cardDetailsTree(context) => Container(
                               ).then((value)
                               {
                                 GeneralCubit.get(context).favorites!.isEmpty?const SizedBox():
-                                GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+AllProductsData.getMainAmountOfCard(index)*AllProductsData.getMainPrice(index) );
-                              });
+                                GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!);
+                              })
+                              //     .then((value)
+                              // {
+                              //   AllProductsData.updateInMyCard(index, !AllProductsData.inMyCard(index));
+                              // })
+                              ;
                             },
-                            child: Text(
+                            child:Text(
                               'Add To Cart',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!
                                   .copyWith(
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                  ),
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
                             ),
                           ),
                         ),
