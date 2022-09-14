@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:la_vie/presentation_layer/models/all_blogs.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
 import 'package:la_vie/presentation_layer/screens/home_screen.dart';
+import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
 import 'package:la_vie/presentation_layer/screens/notification_screen.dart';
 import 'package:la_vie/presentation_layer/screens/profile_screen.dart';
 import 'package:la_vie/presentation_layer/screens/scan_screen.dart';
@@ -97,6 +99,21 @@ class GeneralCubit extends Cubit<GeneralStates> {
     }).then((value) {
       allProductsData = AllProductsData.fromJson(value.data);
       print(value.data);
+      if(AllProductsData.message=="Unauthorized")
+      {
+        showToast(
+          message: 'Sorry please login again',
+          toastState: ToastState.error,
+        );
+        CachHelper.deleteData('token').then((value)
+        {
+          navigatePushAndFinish(
+              context: context,
+              navigateTo: LoginScreen(),
+          );
+          emit(GetAllProductsErrorState());
+        });
+      }
       print("plaaaaaaaaaaaaaaaants");
       print(AllProductsData.plants);
       print("seeeeeeeeeeeeeeeds");
@@ -106,8 +123,10 @@ class GeneralCubit extends Cubit<GeneralStates> {
       // print("BBBlooooooooooooooooogssss");
       // print(allBlogs!.data!.plants);
       emit(GetAllProductsSuccessState());
+      print('toooooooooooookennn');
       print(CachHelper.getData(key:'token'));
-    }).catchError((error) {
+    }).catchError((error)
+    {
       emit(GetAllProductsErrorState());
       print(error.toString());
     });
@@ -355,6 +374,12 @@ class GeneralCubit extends Cubit<GeneralStates> {
   void changeSelectIndexOfBlog(int index)
   {
     selectIndexOfBlog=index;
+    emit(ChangeSelectIndexSuccessState());
+  }
+  int selectIndexOfForums=0;
+  void changeSelectIndexOfForums(int index)
+  {
+    selectIndexOfForums=index;
     emit(ChangeSelectIndexSuccessState());
   }
   /////////////filter AllProducts//////////////
@@ -607,24 +632,6 @@ String? getImageOfProduct(int index)
     }
     return 0;
   }
-
-  // getInMyCart(index)
-  // {
-  //   switch(selectIndex)
-  //   {
-  //     case 0:
-  //       {
-  //         return AllProductsData.inMyCard(index);
-  //       }
-  //     case 1:
-  //       {
-  //         return AllProductsData.plantInMyCart(index);
-  //       }
-  //
-  //   }
-  //   return 0;
-  // }
-
 
 
 }

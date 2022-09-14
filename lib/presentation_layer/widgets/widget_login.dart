@@ -83,10 +83,10 @@ Widget loginWidget(context) {
                       color: Theme.of(context).primaryColor,
                     ),
                     child: MaterialButton(
-                      onPressed: () {
-                        navigatePushAndFinish(
-                            context: context, navigateTo: LayoutScreen());
-                        if (formKey.currentState!.validate()) {
+                      onPressed: ()
+                      {
+                        if (formKey.currentState!.validate())
+                        {
                           cubit.userLogin(
                             email: emailController!.text,
                             password: passwordController!.text,

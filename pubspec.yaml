@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.0.15
   sqflite:
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

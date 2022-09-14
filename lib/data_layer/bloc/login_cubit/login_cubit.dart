@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
+import 'package:la_vie/presentation_layer/layout/layout_screen.dart';
 import 'package:la_vie/presentation_layer/models/login_model.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
@@ -16,7 +17,7 @@ class LoginCubit extends Cubit<LoginStates> {
   void userLogin({
     required String? email,
     required String? password,
-    required BuildContext? context,
+    required BuildContext context,
   }) {
     emit(UserLoginLoadingState());
     isLoginLoading = true;
@@ -27,6 +28,7 @@ class LoginCubit extends Cubit<LoginStates> {
       userLoginModel = UserLoginModel.fromJson(value.data);
       CachHelper.setData(key: 'token', value: UserLoginModel.token);
       print(UserLoginModel.token);
+      navigatePushAndFinish(context: context, navigateTo: LayoutScreen());
       emit(UserLoginSuccessState());
       isLoginLoading = false;
       showToast(
