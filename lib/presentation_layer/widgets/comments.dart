@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
-Widget comments(BuildContext context,int index)=> Container(
+TextEditingController commentController = TextEditingController();
+Widget comments(BuildContext context,int index,token)=> Container(
   height: MediaQuery.of(context).size.height*0.8,
   child: Stack(
     children:
@@ -58,6 +60,7 @@ Widget comments(BuildContext context,int index)=> Container(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextFormField(
+                      controller: commentController,
                       cursorColor: primaryColor,
                       decoration:const InputDecoration(
                         border: InputBorder.none,
@@ -70,7 +73,17 @@ Widget comments(BuildContext context,int index)=> Container(
                   height: 50,
                   color: primaryColor,
                   child: MaterialButton(
-                      onPressed: (){},
+                      onPressed: ()
+                      {
+                        GeneralCubit.get(context).createComment(
+                            token: token,
+                            comment: commentController.text,
+                            forumId: AllForums.getForumId(index),
+                        ).then((value) =>
+                        {
+                          commentController.clear(),
+                        });
+                      },
                     minWidth: 1,
                     child:const Icon(
                       IconlyLight.send,

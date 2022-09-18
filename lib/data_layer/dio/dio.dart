@@ -41,11 +41,12 @@ class DioHelper {
     required String? url,
     dynamic data,
     Map<String, dynamic>? token,
+    Map<String, dynamic>? headers,
   }) async {
     return await dio!.post(
       url!,
       data: data,
-      options: Options(headers: token),
+      options: Options(headers: headers),
     );
   }
 

@@ -134,23 +134,81 @@ class GeneralCubit extends Cubit<GeneralStates> {
   }
 
   AllForums? allForums;
+  bool isLoadAllForums=false;
   void getAllForums({
     required String token,
     context,
   }) {
     emit(GetAllForumsLoadingState());
+    isLoadAllForums=true;
     DioHelper.getData(url: forums, headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     }).then((value) {
       allForums=AllForums.fromJson(value.data);
-      print(value.data);
+      print(AllForums.data);
       emit(GetAllForumsSuccessState());
+      isLoadAllForums=false;
     }).catchError((error)
     {
       emit(GetAllForumsErrorState());
+      isLoadAllForums=false;
       print(error.toString());
     });
+  }
+
+  Future<void> createComment({
+    required String token,
+    required String comment,
+    required String forumId,
+    context,
+  }) async {
+    emit(CreateCommentLoadingState());
+    DioHelper.postData(url: "/api/v1/forums/$forumId/comment",
+        data:
+        {
+          'comment':comment,
+        },
+        headers:
+        {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    }).then((value) {
+      print(value.data);
+      getAllForums(token: token);
+      emit(CreateCommentSuccessState());
+    }).catchError((error)
+    {
+      emit(CreateCommentErrorState());
+      print(error.toString());
+    });
+  }
+
+  void putLove({
+    required String token,
+    required String forumId,
+    required int index,
+  }) {
+    emit(PutLoveLoadingState());
+    DioHelper.postData(url: "/api/v1/forums/$forumId/like",
+        headers:
+        {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        }).then((value) {
+      emit(PutLoveSuccessState());
+    }).catchError((error)
+    {
+      emit(PutLoveErrorState());
+      print(error.toString());
+    });
+  }
+
+  Future<void> changeLoveButton(index)
+  async{
+    AllForums.updateIsLove(index,!AllForums.getIsLove(index));
+    AllForums.updateForumsNumberOfLikes(index);
+    emit(ChangeCardState());
   }
 
 

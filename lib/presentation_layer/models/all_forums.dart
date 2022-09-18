@@ -12,6 +12,10 @@ class AllForums {
     type = json['type'];
     message = json['message'];
     data = json['data'] != null ? List<dynamic>.of(json['data']) : null;
+    data?.forEach((element) 
+    {
+      element.addAll({'isLove':false});
+    });
   }
 
 
@@ -57,6 +61,18 @@ class AllForums {
   static int? getForumsNumberOfLikes(index)
   {
     return data?[index]['ForumLikes'].length;
+  }
+  static int? updateForumsNumberOfLikes(index)
+  {
+    return data?[index]['ForumLikes'].length++;
+  }
+  static bool getIsLove(index)
+  {
+    return data?[index]['isLove'];
+  }
+  static bool? updateIsLove(index,isLove)
+  {
+    return data?[index]['isLove']=isLove;
   }
   static int? getForumsNumberOfComments(index)
   {

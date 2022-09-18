@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
+import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/screens/create_post_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
+import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 import 'package:la_vie/presentation_layer/widgets/card_forums.dart';
 import 'package:la_vie/presentation_layer/widgets/category.dart';
 
@@ -20,6 +22,8 @@ class ForumsScreen extends StatelessWidget {
       listener: (context, state){},
       builder: (context, state)
       {
+        var cubit=GeneralCubit.get(context);
+        String token = CachHelper.getData(key: 'token');
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -85,7 +89,8 @@ class ForumsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10,),
 
-                cardForums(),
+                cubit.isLoadAllForums?const Center(child:CircularProgressIndicator(color:primaryColor,)):
+                cardForums(token),
 
               ],
             ),

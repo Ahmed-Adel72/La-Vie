@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
+import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 import 'package:la_vie/presentation_layer/widgets/comments.dart';
 
-Widget cardForums()=>ListView.separated(
+Widget cardForums(token)=>ListView.separated(
   physics: const BouncingScrollPhysics(),
   scrollDirection: Axis.vertical,
   shrinkWrap: true,
@@ -41,15 +44,15 @@ Widget cardForums()=>ListView.separated(
                   children:
                   [
                     Text(
-                      AllForums.getForumUserFirstName(index)+AllForums.getForumUserLastName(index),
+                      AllForums.getForumUserFirstName(index)+' '+AllForums.getForumUserLastName(index),
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 16),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                      'a month ago',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.grey[500],fontSize: 12),
-                    ),
+                    // Text(
+                    //   'a month ago',
+                    //   style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.grey[500],fontSize: 12),
+                    // ),
                   ],
                 ),
               ),
@@ -91,12 +94,20 @@ Widget cardForums()=>ListView.separated(
             children:
             [
               IconButton(
-                onPressed: (){},
-                icon: const Icon(IconlyLight.heart),
+                onPressed: ()
+                {
+                 GeneralCubit.get(context).changeLoveButton(index).then((value)
+                 {
+                   GeneralCubit.get(context).putLove(token: token, forumId: AllForums.getForumId(index), index: index);
+                 });
+
+                },
+                icon:AllForums.getIsLove(index)?const Icon(IconlyLight.heart,color: Colors.red,):
+                const Icon(IconlyLight.heart,),
                 color: Colors.grey,
               ),
               Text(
-                '${AllForums.getForumsNumberOfLikes(index)} Likes',
+                '${AllForums.getForumsNumberOfLikes(index)} Loves',
                 style: Theme.of(context).textTheme.bodyText1!
                     .copyWith(color: Colors.grey[600],fontSize: 14,fontWeight: FontWeight.w400),
               ),
@@ -111,7 +122,7 @@ Widget cardForums()=>ListView.separated(
                     ),
                     isScrollControlled: true,
                     builder: (context) =>
-                        modalSheetComments(context,index),
+                        modalSheetComments(context,index,token),
                   );
                 },
                 child: Text(
@@ -129,36 +140,42 @@ Widget cardForums()=>ListView.separated(
   separatorBuilder: (context, index) => const SizedBox(height: 10.0,),
   itemCount: AllForums.data!.length,
 );
-Widget modalSheetComments(BuildContext context,int index) {
-  return StatefulBuilder(
-    builder: (BuildContext context, void Function(void Function()) setState) {
-      return SingleChildScrollView(
-        physics:const BouncingScrollPhysics(),
-        child: Container(
-          height: MediaQuery.of(context).size.height*0.9,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(40),
-              topLeft: Radius.circular(40),
+Widget modalSheetComments(BuildContext context,int index,token) {
+  return BlocConsumer<GeneralCubit, GeneralStates>(
+    listener: (context, state){},
+    builder: (context, state)
+    {
+      return StatefulBuilder(
+        builder: (BuildContext context, void Function(void Function()) setState) {
+          return SingleChildScrollView(
+            physics:const BouncingScrollPhysics(),
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.9,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(40),
+                  topLeft: Radius.circular(40),
+                ),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Text(
+                    'Comments',
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(color: primaryColor,fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  comments(context, index,token),
+                ],
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Comments',
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(color: primaryColor,fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              comments(context, index),
-            ],
-          ),
-        ),
+          );
+        },
       );
     },
   );

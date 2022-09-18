@@ -43,3 +43,15 @@ class GetAllForumsLoadingState extends GeneralStates {}
 class GetAllForumsSuccessState extends GeneralStates {}
 
 class GetAllForumsErrorState extends GeneralStates {}
+
+class CreateCommentLoadingState extends GeneralStates {}
+
+class CreateCommentSuccessState extends GeneralStates {}
+
+class CreateCommentErrorState extends GeneralStates {}
+
+class PutLoveLoadingState extends GeneralStates {}
+
+class PutLoveSuccessState extends GeneralStates {}
+
+class PutLoveErrorState extends GeneralStates {}
