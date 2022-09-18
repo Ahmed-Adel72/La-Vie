@@ -42,6 +42,7 @@ dependencies:
   iconly: ^1.0.1
   shared_preferences: ^2.0.15
   sqflite:
+  cached_network_image: ^3.2.1
 
 
 dev_dependencies:

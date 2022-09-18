@@ -37,3 +37,9 @@ class GetAllBlogsLoadingState extends GeneralStates {}
 class GetAllBlogsSuccessState extends GeneralStates {}
 
 class GetAllBlogsErrorState extends GeneralStates {}
+
+class GetAllForumsLoadingState extends GeneralStates {}
+
+class GetAllForumsSuccessState extends GeneralStates {}
+
+class GetAllForumsErrorState extends GeneralStates {}

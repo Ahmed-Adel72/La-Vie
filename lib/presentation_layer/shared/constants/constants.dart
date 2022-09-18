@@ -5,4 +5,5 @@ const String login="/api/v1/auth/signin";
 const String getMe="/api/v1/user/me";
 const String products="/api/v1/products";
 const String blogs="/api/v1/products/blogs";
+const String forums="/api/v1/forums";
 

@@ -19,8 +19,6 @@ void main() async {
   token = CachHelper.getData(key: 'token');
   Bloc.observer = MyBlocObserver();
 
-
-
   Widget startWidget;
   if (await CachHelper.getData(key: 'token') == null ||
       CachHelper.getData(key: 'token') == '') {
@@ -41,7 +39,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GeneralCubit()..getAllProducts(token: token,context: context)..createDataBase()..getAllBlogs(token: token),
+          create: (context) => GeneralCubit()..getAllProducts(token: token,context: context)..createDataBase()..getAllBlogs(token: token)..getAllForums(token: token),
         ),
         BlocProvider(
           create: (context) => LoginCubit(),

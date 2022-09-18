@@ -7,6 +7,7 @@ import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
 import 'package:la_vie/presentation_layer/models/all_blogs.dart';
+import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
 import 'package:la_vie/presentation_layer/screens/home_screen.dart';
@@ -101,12 +102,12 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(value.data);
       if(AllProductsData.message=="Unauthorized")
       {
-        showToast(
-          message: 'Sorry please login again',
-          toastState: ToastState.error,
-        );
         CachHelper.deleteData('token').then((value)
         {
+          showToast(
+            message: 'Sorry please login again',
+            toastState: ToastState.error,
+          );
           navigatePushAndFinish(
               context: context,
               navigateTo: LoginScreen(),
@@ -131,6 +132,27 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(error.toString());
     });
   }
+
+  AllForums? allForums;
+  void getAllForums({
+    required String token,
+    context,
+  }) {
+    emit(GetAllForumsLoadingState());
+    DioHelper.getData(url: forums, headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    }).then((value) {
+      allForums=AllForums.fromJson(value.data);
+      print(value.data);
+      emit(GetAllForumsSuccessState());
+    }).catchError((error)
+    {
+      emit(GetAllForumsErrorState());
+      print(error.toString());
+    });
+  }
+
 
   AllBlogs? allBlogs;
   void getAllBlogs({
@@ -242,9 +264,9 @@ class GeneralCubit extends Cubit<GeneralStates> {
 ////////////////dataBase////////////////////
   Database? database;
   List<Map> ?favorites=[];
-  void createDataBase()
+  Future<void> createDataBase()async
   {
-    openDatabase(
+    await openDatabase(
       'LaVie.db',
       version: 1,
       onCreate: (database,version)
@@ -288,6 +310,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   async {
     await database!.transaction((txn)
     async{
+      var batch=txn.batch();
       await txn.rawInsert('INSERT INTO LaVie(photo,name,price,amount,productId,total) VALUES("$photo","$name","$price","$amount","$productId","$total")')
           .then((value)
       {
@@ -304,7 +327,8 @@ class GeneralCubit extends Cubit<GeneralStates> {
       {
         print('Error when inserting ${error.toString()}');
       });
-      return null;
+      await batch.commit(noResult: true);
+
     });
   }
 
