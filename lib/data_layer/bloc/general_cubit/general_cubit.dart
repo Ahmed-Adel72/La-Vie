@@ -14,6 +14,7 @@ import 'package:la_vie/presentation_layer/models/all_blogs.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
+import 'package:la_vie/presentation_layer/models/get_my_forums.dart';
 import 'package:la_vie/presentation_layer/screens/home_screen.dart';
 import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
 import 'package:la_vie/presentation_layer/screens/notification_screen.dart';
@@ -151,12 +152,37 @@ class GeneralCubit extends Cubit<GeneralStates> {
     }).then((value) {
       allForums=AllForums.fromJson(value.data);
       print(AllForums.data);
+      getMyForums(token: token);
       emit(GetAllForumsSuccessState());
       isLoadAllForums=false;
     }).catchError((error)
     {
       emit(GetAllForumsErrorState());
       isLoadAllForums=false;
+      print(error.toString());
+    });
+  }
+
+  MyForums? myForums;
+  bool isLoadMyForums=false;
+  void getMyForums({
+    required String token,
+    context,
+  }) {
+    emit(GetMyForumsLoadingState());
+    isLoadMyForums=true;
+    DioHelper.getData(url: myPosts, headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    }).then((value) {
+      myForums=MyForums.fromJson(value.data);
+      print(MyForums.data);
+      emit(GetMyForumsSuccessState());
+      isLoadMyForums=false;
+    }).catchError((error)
+    {
+      emit(GetMyForumsErrorState());
+      isLoadMyForums=false;
       print(error.toString());
     });
   }
@@ -778,6 +804,183 @@ String? getImageOfProduct(int index)
       case 2:
         {
           return AllBlogs.tools?.length;
+        }
+    }
+    return 0;
+  }
+  /////////////////////fetch forums///////////////////
+
+  String? getTitleOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumTitle(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumTitle(index);
+        }
+    }
+    return 'no title';
+  }
+
+  String? getDescriptionOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumDescription(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumDescription(index);
+        }
+    }
+    return 'no description';
+  }
+
+  String? getIdOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumId(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumId(index);
+        }
+    }
+    return '';
+  }
+
+  String? getImageOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumImage(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumImage(index);
+        }
+    }
+    return noImage;
+  }
+
+  String? getUserPhotoOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumUserPhoto(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumUserPhoto(index);
+        }
+    }
+    return noImage;
+  }
+
+  String? getCommentOfForum(int index,int indexComment)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getComments(index,indexComment);
+        }
+      case 1:
+        {
+          return MyForums.getComments(index,indexComment);
+        }
+    }
+    return '';
+  }
+
+  String? getUserFirstNameOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumUserFirstName(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumUserFirstName(index);
+        }
+    }
+    return '';
+  }
+
+  String? getUserLastNameOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumUserLastName(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumUserLastName(index);
+        }
+    }
+    return '';
+  }
+
+  int? getNumberOfLikesOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumsNumberOfLikes(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumsNumberOfLikes(index);
+        }
+    }
+    return 0;
+  }
+
+  int? getNumberOfCommentsOfForum(int index)
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.getForumsNumberOfComments(index);
+        }
+      case 1:
+        {
+          return MyForums.getForumsNumberOfComments(index);
+        }
+    }
+    return 0;
+  }
+
+  getLengthOfForum()
+  {
+    switch(selectIndexOfForums)
+    {
+      case 0:
+        {
+          return AllForums.data!.length;
+        }
+      case 1:
+        {
+          return MyForums.data!.length;
         }
     }
     return 0;

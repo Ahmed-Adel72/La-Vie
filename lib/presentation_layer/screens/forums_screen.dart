@@ -90,7 +90,7 @@ class ForumsScreen extends StatelessWidget {
                 const SizedBox(height: 10,),
 
                 cubit.isLoadAllForums?const Center(child:CircularProgressIndicator(color:primaryColor,)):
-                cardForums(token),
+                cardForums(token,context),
 
               ],
             ),

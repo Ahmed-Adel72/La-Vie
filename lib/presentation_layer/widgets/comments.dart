@@ -28,7 +28,7 @@ Widget comments(BuildContext context,int index,token)=> Container(
                   ),
                   padding:const EdgeInsets.symmetric(vertical: 10,horizontal: 15),
                   child: Text(
-                      AllForums.getComments(index,indexComment),
+                      GeneralCubit.get(context).getCommentOfForum(index,indexComment)!,
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.grey[700],fontSize: 14,fontWeight: FontWeight.w600),
                     ),
                 ),
@@ -36,7 +36,7 @@ Widget comments(BuildContext context,int index,token)=> Container(
             ),
           ),
           separatorBuilder:(context, indexComment)=> const SizedBox(height: 10,),
-          itemCount: AllForums.getForumsNumberOfComments(index)!,
+          itemCount: GeneralCubit.get(context).getNumberOfCommentsOfForum(index)!,
         ),
       ),
       Padding(
@@ -78,7 +78,7 @@ Widget comments(BuildContext context,int index,token)=> Container(
                         GeneralCubit.get(context).createComment(
                             token: token,
                             comment: commentController.text,
-                            forumId: AllForums.getForumId(index),
+                            forumId: GeneralCubit.get(context).getIdOfForum(index)!,
                         ).then((value) =>
                         {
                           commentController.clear(),

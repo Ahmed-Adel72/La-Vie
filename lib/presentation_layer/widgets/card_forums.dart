@@ -9,7 +9,7 @@ import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 import 'package:la_vie/presentation_layer/widgets/comments.dart';
 
-Widget cardForums(token)=>ListView.separated(
+Widget cardForums(token,context)=>ListView.separated(
   physics: const BouncingScrollPhysics(),
   scrollDirection: Axis.vertical,
   shrinkWrap: true,
@@ -32,7 +32,7 @@ Widget cardForums(token)=>ListView.separated(
                     borderRadius: BorderRadius.circular(50),
                     image: DecorationImage(
                       image: NetworkImage(
-                          AllForums.getForumUserPhoto(index)),
+                          GeneralCubit.get(context).getUserPhotoOfForum(index)!),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -44,7 +44,7 @@ Widget cardForums(token)=>ListView.separated(
                   children:
                   [
                     Text(
-                      AllForums.getForumUserFirstName(index)+' '+AllForums.getForumUserLastName(index),
+                      GeneralCubit.get(context).getUserFirstNameOfForum(index)!+' '+GeneralCubit.get(context).getUserLastNameOfForum(index)!,
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 16),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -62,7 +62,7 @@ Widget cardForums(token)=>ListView.separated(
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              AllForums.getForumTitle(index),
+              GeneralCubit.get(context).getTitleOfForum(index)!,
               style: Theme.of(context).textTheme.bodyText2!
                   .copyWith(color: primaryColor,fontSize: 16,fontWeight: FontWeight.w700),
             ),
@@ -71,7 +71,7 @@ Widget cardForums(token)=>ListView.separated(
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              AllForums.getForumDescription(index),
+              GeneralCubit.get(context).getDescriptionOfForum(index)!,
               style: Theme.of(context).textTheme.bodyText1!
                   .copyWith(color: Colors.grey,fontSize: 12),
             ),
@@ -81,7 +81,7 @@ Widget cardForums(token)=>ListView.separated(
             height: 300,
             width: double.infinity,
             child: CachedNetworkImage(
-              imageUrl: AllForums.getForumImage(index),
+              imageUrl: GeneralCubit.get(context).getImageOfForum(index)!,
               placeholder:(context, url) =>const Center(child:CircularProgressIndicator(color: primaryColor,)) ,
               errorWidget: (context, url, error) =>const Icon(Icons.error),
               fit: BoxFit.cover,
@@ -98,7 +98,7 @@ Widget cardForums(token)=>ListView.separated(
                 {
                  GeneralCubit.get(context).changeLoveButton(index).then((value)
                  {
-                   GeneralCubit.get(context).putLove(token: token, forumId: AllForums.getForumId(index), index: index);
+                   GeneralCubit.get(context).putLove(token: token, forumId: GeneralCubit.get(context).getIdOfForum(index)!, index: index);
                  });
 
                 },
@@ -107,7 +107,7 @@ Widget cardForums(token)=>ListView.separated(
                 color: Colors.grey,
               ),
               Text(
-                '${AllForums.getForumsNumberOfLikes(index)} Loves',
+                '${GeneralCubit.get(context).getNumberOfLikesOfForum(index)!} Loves',
                 style: Theme.of(context).textTheme.bodyText1!
                     .copyWith(color: Colors.grey[600],fontSize: 14,fontWeight: FontWeight.w400),
               ),
@@ -126,7 +126,7 @@ Widget cardForums(token)=>ListView.separated(
                   );
                 },
                 child: Text(
-                  '${AllForums.getForumsNumberOfComments(index)} Replies',
+                  '${GeneralCubit.get(context).getNumberOfCommentsOfForum(index)!} Replies',
                   style: Theme.of(context).textTheme.bodyText1!
                       .copyWith(color: Colors.grey[600],fontSize: 14,fontWeight: FontWeight.w400),
                 ),
@@ -138,7 +138,7 @@ Widget cardForums(token)=>ListView.separated(
     ),
   ),
   separatorBuilder: (context, index) => const SizedBox(height: 10.0,),
-  itemCount: AllForums.data!.length,
+  itemCount:GeneralCubit.get(context).getLengthOfForum(),
 );
 Widget modalSheetComments(BuildContext context,int index,token) {
   return BlocConsumer<GeneralCubit, GeneralStates>(
