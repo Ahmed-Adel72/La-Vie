@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
+import 'package:la_vie/presentation_layer/shared/components/components.dart';
 
 Widget cardDetailsTree(context) => Container(
       height: 425,
@@ -103,24 +104,7 @@ Widget cardDetailsTree(context) => Container(
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 12, bottom: 8, top: 5),
-                        child:
-                        // AllProductsData.inMyCard(index)? Container(
-                        //   height: 28.0,
-                        //   width: 135.0,
-                        //   child: Text(
-                        //     'In my cart',
-                        //     style: Theme.of(context)
-                        //         .textTheme
-                        //         .bodyText1!
-                        //         .copyWith(
-                        //       color: primaryColor,
-                        //       fontSize: 16.0,
-                        //       fontWeight: FontWeight.w600,
-                        //     ),
-                        //     textAlign: TextAlign.center,
-                        //   ),
-                        // ):
-                        Container(
+                        child: Container(
                           height: 28.0,
                           width: 135.0,
                           decoration: BoxDecoration(
@@ -130,23 +114,23 @@ Widget cardDetailsTree(context) => Container(
                           child: MaterialButton(
                             onPressed: ()
                             {
-                              GeneralCubit.get(context).insertToDataBase(
-                                photo: GeneralCubit.get(context).getImageOfProduct(index),
-                                name: GeneralCubit.get(context).getNameOfProduct(index),
-                                price: GeneralCubit.get(context).getPriceOfProduct(index),
-                                amount:GeneralCubit.get(context).getAmountOfProduct(index),
-                                productId: GeneralCubit.get(context).getIdOfProduct(index),
-                                total:GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!,
-                              ).then((value)
+                              GeneralCubit.get(context).checkItemInDataBase(index: index).then((value)
                               {
-                                GeneralCubit.get(context).favorites!.isEmpty?const SizedBox():
-                                GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!);
-                              })
-                              //     .then((value)
-                              // {
-                              //   AllProductsData.updateInMyCard(index, !AllProductsData.inMyCard(index));
-                              // })
-                              ;
+                                GeneralCubit.get(context).inMyCart?showToast(message: 'This item in your cart', toastState: ToastState.warning):
+                                GeneralCubit.get(context).insertToDataBase(
+                                  photo: GeneralCubit.get(context).getImageOfProduct(index),
+                                  name: GeneralCubit.get(context).getNameOfProduct(index),
+                                  price: GeneralCubit.get(context).getPriceOfProduct(index),
+                                  amount:GeneralCubit.get(context).getAmountOfProduct(index),
+                                  productId: GeneralCubit.get(context).getIdOfProduct(index),
+                                  total:GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!,
+                                ).then((value)
+                                {
+                                  GeneralCubit.get(context).favorites!.isEmpty?const SizedBox():
+                                  GeneralCubit.get(context).updateTotalFromDataBase(total:GeneralCubit.get(context).favorites![0]['total']+GeneralCubit.get(context).getAmountOfProduct(index)!*GeneralCubit.get(context).getPriceOfProduct(index)!);
+                                });
+                              });
+
                             },
                             child:Text(
                               'Add To Cart',

@@ -278,6 +278,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     }
   }
 
+  bool isCounterZero=false;
   void changeCounterMyCardMinus({required index,context})
   {
     for(int i=0;i<AllProductsData.data!.length;i++)
@@ -291,9 +292,12 @@ class GeneralCubit extends Cubit<GeneralStates> {
         counterMyCard=AllProductsData.getMainAmountOfCard(i);
         if(counterMyCard<=1)
         {
-          counterMyCard=0;
+          counterMyCard=1;
+          isCounterZero=true;
+
         }else {
           counterMyCard--;
+          isCounterZero=false;
         }
         AllProductsData.updateAmountOfCard(counterMyCard,i);
         updateDataFromDataBase(amount:AllProductsData.getMainAmountOfCard(i),index: index)
@@ -302,22 +306,36 @@ class GeneralCubit extends Cubit<GeneralStates> {
           emit(ChangeCardState());
         }).then((value)
         {
-          updateTotalFromDataBase(total:favorites![index]['total']-favorites![index]['price'],index: index);
+          updateTotalFromDataBase(total:isCounterZero?favorites![index]['total']:favorites![index]['total']-favorites![index]['price'],index: index);
         });
       }
     }
   }
-  // void changeInMyCartButton({index})
-  // {
-  //   for(int i=0;i<AllProductsData.data!.length;i++)
-  //   {
-  //     if(AllProductsData.getMainProductId(i)==favorites![index]['productId'])
-  //     {
-  //       AllProductsData.updateInMyCard(i, !AllProductsData.inMyCard(i));
-  //         emit((ChangeCardState()));
-  //     }
-  //   }
-  // }
+
+  bool inMyCart=false;
+  Future<void> checkItemInDataBase({required index})
+  async{
+    if(favorites!.isEmpty)
+    {
+      inMyCart=false;
+    }
+    else
+      {
+        for(int i=0;i<favorites!.length;++i)
+        {
+          if(favorites![i]['productId']==getIdOfProduct(index))
+          {
+            inMyCart=true;
+            break;
+          }
+          else
+          {
+            inMyCart=false;
+          }
+        }
+      }
+  }
+
 
 ////////////////dataBase////////////////////
   Database? database;

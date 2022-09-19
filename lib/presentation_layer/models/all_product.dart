@@ -86,35 +86,6 @@ class AllProductsData {
     return 1;
   }
 
-  // static bool inMyCard(int index) {
-  //   if (data?[index]['type'] == 'PLANT') {
-  //     return data?[index]['plant']['isFavorite'];
-  //   } else if (data?[index]['type'] == 'SEED') {
-  //     return data?[index]['seed']['isFavorite'];
-  //   } else if (data?[index]['type'] == 'TOOL') {
-  //     return data?[index]['tool']['isFavorite'];
-  //   }
-  //   return false;
-  // }
-
-  // static bool updateInMyCard(int index,bool isFavorite) {
-  //   if (data?[index]['type'] == 'PLANT') {
-  //      data?[index]['plant']['isFavorite']=isFavorite;
-  //      for(int i=0;i<plants!.length;i++)
-  //      {
-  //        if (plants?[i]['productId']==data?[index]['productId']) {
-  //          plants?[i]['isFavorite']=isFavorite;
-  //        }
-  //      }
-  //   } else if (data?[index]['type'] == 'SEED') {
-  //      data?[index]['seed']['isFavorite']=isFavorite;
-  //   } else if (data?[index]['type'] == 'TOOL') {
-  //      data?[index]['tool']['isFavorite']=isFavorite;
-  //   }
-  //   return false;
-  // }
-
-
 
   static int getMainPrice(int index) {
     return data?[index]['price'];
@@ -149,6 +120,7 @@ class AllProductsData {
         }
      }
   }
+
 
   ////////////////fetch plants/////////////
 
