@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
+import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
 class CreatePostScreen extends StatelessWidget {
@@ -16,6 +17,7 @@ class CreatePostScreen extends StatelessWidget {
       listener: (context, state){},
       builder: (context, state)
       {
+        String token = CachHelper.getData(key: 'token');
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -43,7 +45,10 @@ class CreatePostScreen extends StatelessWidget {
                 children:
                 [
                   InkWell(
-                    onTap: (){},
+                    onTap: ()
+                    {
+                      GeneralCubit.get(context).pickImage();
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 30.0),
                       child: Align(
@@ -144,6 +149,12 @@ class CreatePostScreen extends StatelessWidget {
                     child: MaterialButton(
                       onPressed: ()
                       {
+                        GeneralCubit.get(context).createPost(
+                            token: token,
+                            title: titleController.text,
+                            description: descriptionController.text,
+                            photo: GeneralCubit.get(context).finalImage!,
+                        );
 
                       },
                       child: Text(

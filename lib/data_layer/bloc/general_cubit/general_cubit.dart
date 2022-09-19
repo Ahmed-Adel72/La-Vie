@@ -1,8 +1,12 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:io' as Io;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
@@ -337,6 +341,52 @@ class GeneralCubit extends Cubit<GeneralStates> {
   }
 
 
+  File? profileAvatar;
+  String? finalImage;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      profileAvatar = File(image.path.toString());
+      final imageBytes = await Io.File(profileAvatar!.path).readAsBytes();
+      finalImage = "data:image/png;base64,${base64Encode(imageBytes)}";
+
+      emit(UserSetAvatarState());
+    } on PlatformException catch (e) {}
+  }
+
+  Future<void> createPost({
+    required String token,
+    required String title,
+    required String description,
+    required String photo,
+    context,
+  }) async {
+    emit(CreatePostLoadingState());
+    DioHelper.postData(url: forums,
+        data:
+        {
+          'title':title,
+          'description':description,
+          'imageBase64':photo,
+        },
+        headers:
+        {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        }).then((value) {
+      print(value.data);
+      getAllForums(token: token);
+      emit(CreatePostSuccessState());
+    }).catchError((error)
+    {
+      emit(CreatePostErrorState());
+      print(error.toString());
+    });
+  }
+
+
 ////////////////dataBase////////////////////
   Database? database;
   List<Map> ?favorites=[];
@@ -387,7 +437,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     await database!.transaction((txn)
     async{
       var batch=txn.batch();
-      await txn.rawInsert('INSERT INTO LaVie(photo,name,price,amount,productId,total) VALUES("$photo","$name","$price","$amount","$productId","$total")')
+       await txn.rawInsert('INSERT INTO LaVie(photo,name,price,amount,productId,total) VALUES("$photo","$name","$price","$amount","$productId","$total")')
           .then((value)
       {
         print('$value inserted successfully');
@@ -403,7 +453,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
       {
         print('Error when inserting ${error.toString()}');
       });
-      await batch.commit(noResult: true);
+       batch.commit(noResult: true);
 
     });
   }

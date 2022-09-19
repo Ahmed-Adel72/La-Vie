@@ -55,3 +55,11 @@ class PutLoveLoadingState extends GeneralStates {}
 class PutLoveSuccessState extends GeneralStates {}
 
 class PutLoveErrorState extends GeneralStates {}
+
+class UserSetAvatarState extends GeneralStates {}
+
+class CreatePostLoadingState extends GeneralStates {}
+
+class CreatePostSuccessState extends GeneralStates {}
+
+class CreatePostErrorState extends GeneralStates {}
