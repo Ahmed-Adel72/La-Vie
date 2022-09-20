@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
-import 'package:la_vie/presentation_layer/layout/layout_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 
 TextEditingController? emailController = TextEditingController();
@@ -37,7 +36,7 @@ Widget loginWidget(context) {
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Email Address must not be empty ';
+                    return 'Email Address must not be empty';
                   }
                 },
               ),

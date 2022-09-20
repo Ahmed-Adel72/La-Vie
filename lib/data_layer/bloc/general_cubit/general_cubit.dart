@@ -382,6 +382,13 @@ class GeneralCubit extends Cubit<GeneralStates> {
     } on PlatformException catch (e) {}
   }
 
+  void clearPickImage()
+  {
+      profileAvatar=null;
+    emit(ClearPickImageState());
+  }
+
+  bool isLoadCreatePost=false;
   Future<void> createPost({
     required String token,
     required String title,
@@ -390,6 +397,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     context,
   }) async {
     emit(CreatePostLoadingState());
+    isLoadCreatePost=true;
     DioHelper.postData(url: forums,
         data:
         {
@@ -404,10 +412,14 @@ class GeneralCubit extends Cubit<GeneralStates> {
         }).then((value) {
       print(value.data);
       getAllForums(token: token);
+      isLoadCreatePost=false;
       emit(CreatePostSuccessState());
+      showToast(message: 'post created', toastState: ToastState.success);
     }).catchError((error)
     {
+      isLoadCreatePost=false;
       emit(CreatePostErrorState());
+      showToast(message: 'error', toastState: ToastState.error);
       print(error.toString());
     });
   }

@@ -69,3 +69,5 @@ class CreatePostLoadingState extends GeneralStates {}
 class CreatePostSuccessState extends GeneralStates {}
 
 class CreatePostErrorState extends GeneralStates {}
+
+class ClearPickImageState extends GeneralStates {}
