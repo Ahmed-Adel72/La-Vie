@@ -72,6 +72,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
 
   /////get my data
   bool isLoadProfile = false;
+  GetMyDataModel? getMyDataModel;
   void getMyData({
     required String token,
   }) {
@@ -84,12 +85,45 @@ class GeneralCubit extends Cubit<GeneralStates> {
         'Content-Type': 'application/json',
       },
     ).then((value) {
-      GetMyDataModel.getUserModel = Map<String, dynamic>.from(value.data);
-      // isLoadProfile = false;
+      getMyDataModel=GetMyDataModel.fromJson(value.data);
+      isLoadProfile = false;
       emit(GetMyDataSuccessState());
-      print(GetMyDataModel.email);
     }).catchError((error) {
+      isLoadProfile = false;
       emit(GetMyDataErrorState());
+    });
+  }
+
+  bool isUpdateProfile = false;
+  Future<void> updateMyData({
+    required String token,
+    String? firstName,
+    String? lastName,
+    String? email,
+  }) async{
+    isUpdateProfile = true;
+    emit(UpdateMyDataLoadingState());
+    DioHelper.patchData(
+      data:
+      {
+        'firstName':firstName,
+        'lastName':lastName,
+        'email':email,
+      },
+      url: getMe,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    ).then((value) {
+      isUpdateProfile = false;
+      showToast(message: 'Update Success', toastState: ToastState.success);
+      GetMyDataModel.updateData(firstName!,lastName!,email!);
+      emit(UpdateMyDataSuccessState());
+    }).catchError((error) {
+      isUpdateProfile = false;
+      showToast(message: 'Check your data', toastState: ToastState.error);
+      emit(UpdateMyDataErrorState());
     });
   }
 
@@ -126,8 +160,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(AllProductsData.seeds);
       print("tooooooooooooools");
       print(AllProductsData.tools);
-      // print("BBBlooooooooooooooooogssss");
-      // print(allBlogs!.data!.plants);
+      getMyData(token: token);
       emit(GetAllProductsSuccessState());
       print('toooooooooooookennn');
       print(CachHelper.getData(key:'token'));

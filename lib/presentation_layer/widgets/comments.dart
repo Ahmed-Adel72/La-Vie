@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
-import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
 TextEditingController commentController = TextEditingController();

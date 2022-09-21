@@ -71,3 +71,9 @@ class CreatePostSuccessState extends GeneralStates {}
 class CreatePostErrorState extends GeneralStates {}
 
 class ClearPickImageState extends GeneralStates {}
+
+class UpdateMyDataLoadingState extends GeneralStates {}
+
+class UpdateMyDataSuccessState extends GeneralStates {}
+
+class UpdateMyDataErrorState extends GeneralStates {}

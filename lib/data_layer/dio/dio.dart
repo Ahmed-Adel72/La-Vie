@@ -52,21 +52,12 @@ class DioHelper {
 
   static Future<dynamic> patchData({
     String? url,
-    String? name,
-    String? email,
-    String? bio,
-    String? token,
+    dynamic data,
+    Map<String, dynamic>? headers,
   }) async {
     return response = (await dio?.patch(url!,
-        data: {
-          'name': name,
-          'email': email,
-          'bio': bio,
-        },
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'
-        })))!;
+        data:data,
+        options: Options(headers: headers)))!;
   }
 
   static Future<dynamic> patchPassword({

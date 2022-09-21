@@ -33,6 +33,7 @@ class LoginCubit extends Cubit<LoginStates> {
         GeneralCubit.get(context).getAllProducts(token: token);
         GeneralCubit.get(context).getAllBlogs(token: token);
         GeneralCubit.get(context).getAllForums(token: token);
+        GeneralCubit.get(context).getMyData(token: token);
       }).then((value)
       {
         navigatePushAndFinish(context: context, navigateTo: LayoutScreen());
