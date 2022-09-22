@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
@@ -6,7 +5,6 @@ import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 Widget myFavoriteCard(context,index) => Column(
   children:
   [
-
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14.0),
       child: Card(
@@ -34,7 +32,7 @@ Widget myFavoriteCard(context,index) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:
               [
-                Container(
+                SizedBox(
                   width:146,
                   child: Text(
                     '${GeneralCubit.get(context).favorites![index]['name']}',
@@ -59,38 +57,39 @@ Widget myFavoriteCard(context,index) => Column(
                     borderRadius: BorderRadiusDirectional.circular(5),
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children:
                     [
-                      Container(
-                        width:28,
-                        child: IconButton(
-                          onPressed: ()
-                          {
-                            GeneralCubit.get(context).changeCounterMyCardMinus(index: index,context: context);
-                          },
-                          icon: const Icon(
-                            Icons.remove,
-                            color: primaryColor,
-                            size: 17,
-                          ),
+                      InkWell(
+                        onTap:()
+                        {
+                          GeneralCubit.get(context).changeCounterMyCardMinus(index: index,context: context);
+                        },
+                        child: const SizedBox(
+                          width:28,
+                          child:Icon(
+                              Icons.remove,
+                              color: primaryColor,
+                              size: 17,
+                            ),
                         ),
                       ),
                       Text(
                         '${GeneralCubit.get(context).favorites![index]['amount']}',
                         style:const TextStyle(color: Colors.black),
                       ),
-                      Container(
-                        width: 28,
-                        child: IconButton(
-                          onPressed: ()
-                          {
-                            GeneralCubit.get(context).changeCounterMyCardPlus(index: index,context: context);
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                            color: primaryColor,
-                            size: 17,
-                          ),
+                      InkWell(
+                        onTap: ()
+                        {
+                          GeneralCubit.get(context).changeCounterMyCardPlus(index: index,context: context);
+                        },
+                        child: const SizedBox(
+                          width: 28,
+                          child:Icon(
+                              Icons.add,
+                              color: primaryColor,
+                              size: 17,
+                            ),
                         ),
                       ),
                     ],

@@ -36,7 +36,7 @@ class BlogsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10.0,),
               Container(
-                height: 460,
+                height: MediaQuery.of(context).size.height*0.7,
                 width: double.infinity,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),

@@ -1,16 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
-List<String> category=
-['All', 'Plants', 'Seeds', 'Tools',];
+List<String> category= ['All', 'Plants', 'Seeds', 'Tools',];
 
-List<String> categoryOfBlog=
-['Plants', 'Seeds', 'Tools',];
+List<String> categoryOfBlog= ['Plants', 'Seeds', 'Tools',];
 
-List<String> categoryOfForums=
-['All forums', 'My forums',];
+List<String> categoryOfForums= ['All forums', 'My forums',];
 
 Widget selectCategory()=>ListView.separated(
   physics: const BouncingScrollPhysics(),
@@ -21,7 +17,6 @@ Widget selectCategory()=>ListView.separated(
         onTap: ()
         {
           GeneralCubit.get(context).changeSelectIndex(index);
-          // GeneralCubit.get(context).getInMyCart(index);
         },
         child: Container(
           height: 30.0,

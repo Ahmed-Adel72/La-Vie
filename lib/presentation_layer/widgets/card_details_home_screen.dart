@@ -1,84 +1,81 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
+import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
-Widget cardDetailsTree(context) => Container(
-      height: 425,
+Widget cardDetailsTree(context) => SizedBox(
+  height: MediaQuery.of(context).size.height*0.62,
       child: GridView.builder(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 1.0,
-          mainAxisSpacing: 8.0,
+          mainAxisSpacing: 18.0,
         ),
         itemBuilder: (context, int index) => Stack(
           clipBehavior: Clip.none,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 30.0, left: 5, right: 5),
-              child: Container(
-                height: 150,
-                width: 170,
+              padding: const EdgeInsets.only(top: 10.0, left: 5, right: 5),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height*0.4,
                 child: Card(
-                  elevation: 5,
+                  elevation: 4,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            height: 20,
-                            width: 20,
-                            child: IconButton(
-                              iconSize: 18,
-                              icon: const Icon(
-                                Icons.remove,
-                                color: Colors.grey,
-                              ),
-                              onPressed: ()
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: ()
                               {
                                 GeneralCubit.get(context).changeCounterCardMinus(index: index);
                               },
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, left: 10.0),
-                            child: Text(
-                                '${GeneralCubit.get(context).getAmountOfProduct(index)}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(color: Colors.black),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Container(
-                              height: 20,
-                              width: 20,
-                              child: IconButton(
-                                iconSize: 18,
-                                icon: const Icon(
-                                  Icons.add,
-                                  color: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  GeneralCubit.get(context).changeCounterCardPlus(index: index);
-                                },
+                              child:const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child:Icon(
+                                    Icons.remove,
+                                    color: primaryColor,
+                                  ),
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Text(
+                                  '${GeneralCubit.get(context).getAmountOfProduct(index)}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(color: Colors.grey[800],
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: ()
+                              {
+                                GeneralCubit.get(context).changeCounterCardPlus(index: index);
+                              },
+                              child:const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child:Icon(
+                                    Icons.add,
+                                    color: primaryColor,
+                                  ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const Spacer(),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: 12.0,bottom: 3.0),
                         child: Text(
                           '${GeneralCubit.get(context).getNameOfProduct(index)}',
                           style: Theme.of(context)
@@ -90,7 +87,7 @@ Widget cardDetailsTree(context) => Container(
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: 12.0,bottom: 3.0),
                         child: Text(
                           '${GeneralCubit.get(context).getPriceOfProduct(index)} EGP',
                           style: Theme.of(context)
@@ -151,7 +148,7 @@ Widget cardDetailsTree(context) => Container(
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 30.0),
+              padding: const EdgeInsets.only(left: 20.0),
               child: Container(
                   height: 110,
                   width: 80.0,

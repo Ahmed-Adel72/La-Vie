@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,7 +40,7 @@ class MyCardScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children:
               [
-                Container(
+                SizedBox(
                   height: 200,
                   width: 250,
                     child: Image.asset('assets/images/no_card.png')),
@@ -56,7 +55,7 @@ class MyCardScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10.0,
                 ),
-                Container(
+                SizedBox(
                   width: 260,
                   child: Text(
                     'Sorry, the keyword you entered cannot found, please check again or search with another keyword.',
@@ -70,8 +69,8 @@ class MyCardScreen extends StatelessWidget {
           ): Column(
             children:
             [
-              Container(
-                height: 460,
+              SizedBox(
+                height: MediaQuery.of(context).size.height*0.7,
                 width: double.infinity,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
@@ -84,7 +83,7 @@ class MyCardScreen extends StatelessWidget {
                 children:
                 [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 35.0,vertical: 10),
                     child: Row(
                       children:
                       [
@@ -102,7 +101,7 @@ class MyCardScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 10),
                   Container(
                     height: 43.0,
                     width: 280.0,

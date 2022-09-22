@@ -40,63 +40,63 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 45.0,
-                        width: 280.0,
-                        color: const Color(0xffF8F8F8),
-                        child: TextFormField(
-                          controller: searchController,
-                          keyboardType: TextInputType.text,
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelText: 'search',
-                            labelStyle: Theme.of(context).textTheme.bodyText2!,
-                            prefixIcon: const Icon(Icons.search),
-                            prefixIconColor: Theme.of(context).primaryColor,
-                            iconColor: Theme.of(context).primaryColor,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xffF8F8F8),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 45.0,
+                          color: const Color(0xffF8F8F8),
+                          child: TextFormField(
+                            controller: searchController,
+                            keyboardType: TextInputType.text,
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                              labelText: 'search',
+                              labelStyle: Theme.of(context).textTheme.bodyText2!,
+                              prefixIcon: const Icon(Icons.search),
+                              prefixIconColor: Theme.of(context).primaryColor,
+                              iconColor: Theme.of(context).primaryColor,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Color(0xffF8F8F8),
+                                ),
                               ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                    Expanded(
+                    InkWell(
+                      onTap: ()
+                      {
+                        navigatePushTo(context: context, navigateTo: MyCardScreen());
+                      },
                       child: Container(
                         height: 45.0,
+                        width: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Theme.of(context).primaryColor,
                         ),
-                        child: MaterialButton(
-                          onPressed: ()
-                          {
-                            navigatePushTo(context: context, navigateTo: MyCardScreen());
-                          },
-                          child: const Icon(
-                            IconlyLight.buy,
+                        child:const Icon(
+                            IconlyBroken.buy,
                             color: Colors.white,
                           ),
                         ),
-                      ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding:const EdgeInsets.only(left: 10.0,),
                 child: SizedBox(
                   height: 40.0,
                   child: selectCategory(),

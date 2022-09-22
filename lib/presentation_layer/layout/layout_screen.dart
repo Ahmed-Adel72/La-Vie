@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -34,6 +35,7 @@ class LayoutScreen extends StatelessWidget {
             unselectedItemColor: Theme.of(context).iconTheme.color,
           ),
           floatingActionButton: FloatingActionButton(
+            clipBehavior: Clip.antiAlias,
             child:const Icon(IconlyLight.home),
             backgroundColor:Theme.of(context).primaryColor,
             onPressed: ()

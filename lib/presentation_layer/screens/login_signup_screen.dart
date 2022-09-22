@@ -37,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                     height: 24.0,
                   ),
                   DefaultTabController(
+                    initialIndex: 1,
                     length: 2,
                     child: Container(
                       height: 430.0,
@@ -56,6 +57,7 @@ class LoginScreen extends StatelessWidget {
                         body:Padding(
                           padding: const EdgeInsets.all(28.0),
                           child: TabBarView(
+                            physics: const BouncingScrollPhysics(),
                             children:
                             [
                               SingleChildScrollView(child: signUpWidget()),

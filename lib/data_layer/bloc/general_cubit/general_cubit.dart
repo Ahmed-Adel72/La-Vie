@@ -30,23 +30,26 @@ class GeneralCubit extends Cubit<GeneralStates> {
 
   static GeneralCubit get(context) => BlocProvider.of(context);
 
-  List<BottomNavigationBarItem> bottomNavBarItem = const [
+  List<BottomNavigationBarItem> bottomNavBarItem = [
     BottomNavigationBarItem(
-      icon: Icon(Icons.pets),
+      icon: Image.asset(
+        'assets/images/leave.png',
+        scale: 1.2,
+      ),
       label: 'tree',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(IconlyLight.scan),
       label: 'scan',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(
         IconlyLight.home,
         color: Colors.white,
       ),
       label: 'scan',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(IconlyLight.notification),
       label: 'Notification',
     ),
