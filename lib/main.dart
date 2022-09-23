@@ -15,13 +15,13 @@ import 'presentation_layer/shared/theme/theme_data.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DioHelper.init();
-  await CachHelper.init();
-  token = CachHelper.getData(key: 'token');
+  await CacheHelper.init();
+  token = CacheHelper.getData(key: 'token');
   Bloc.observer = MyBlocObserver();
 
   Widget startWidget;
-  if (await CachHelper.getData(key: 'token') == null ||
-      CachHelper.getData(key: 'token') == '') {
+  if (await CacheHelper.getData(key: 'token') == null ||
+      CacheHelper.getData(key: 'token') == '') {
     startWidget = LoginScreen();
   } else {
     startWidget = LayoutScreen();

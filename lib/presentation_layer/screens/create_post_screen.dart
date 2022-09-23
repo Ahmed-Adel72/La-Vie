@@ -19,7 +19,7 @@ class CreatePostScreen extends StatelessWidget {
       listener: (context, state){},
       builder: (context, state)
       {
-        String token = CachHelper.getData(key: 'token');
+        String token = CacheHelper.getData(key: 'token');
         return Form(
           key: formKey,
           child: Scaffold(

@@ -165,7 +165,12 @@ Widget signUpWidget() {
               ),
               child: MaterialButton(
                 onPressed: ()
-                {},
+                {
+                  if(formKey.currentState!.validate())
+                  {
+                    print('signUp');
+                  }
+                },
                 child: Text(
                   'Sign up',
                   style: Theme.of(context)

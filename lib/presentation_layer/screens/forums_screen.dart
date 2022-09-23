@@ -23,7 +23,7 @@ class ForumsScreen extends StatelessWidget {
       builder: (context, state)
       {
         var cubit=GeneralCubit.get(context);
-        String token = CachHelper.getData(key: 'token');
+        String token = CacheHelper.getData(key: 'token');
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,

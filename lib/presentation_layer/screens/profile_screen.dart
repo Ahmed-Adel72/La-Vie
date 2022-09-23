@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocConsumer<GeneralCubit, GeneralStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        String token=CachHelper.getData(key: 'token');
+        String token=CacheHelper.getData(key: 'token');
         var cubit=GeneralCubit.get(context);
         return Form(
           key: formKey,

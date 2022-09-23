@@ -6,6 +6,7 @@ import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/screens/my_card_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
+import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 import 'package:la_vie/presentation_layer/widgets/card_details_home_screen.dart';
 import 'package:la_vie/presentation_layer/widgets/category.dart';
 
@@ -13,13 +14,12 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
   TextEditingController searchController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GeneralCubit, GeneralStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        String token = CachHelper.getData(key: 'token');
+        String token = CacheHelper.getData(key: 'token');
         var cubit = GeneralCubit.get(context);
         return SingleChildScrollView(
           child: Column(
@@ -53,9 +53,7 @@ class HomeScreen extends StatelessWidget {
                             decoration: InputDecoration(
                               labelText: 'search',
                               labelStyle: Theme.of(context).textTheme.bodyText2!,
-                              prefixIcon: const Icon(Icons.search),
-                              prefixIconColor: Theme.of(context).primaryColor,
-                              iconColor: Theme.of(context).primaryColor,
+                              prefixIcon: const Icon(Icons.search,color:primaryColor,),
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),

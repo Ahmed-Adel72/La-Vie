@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
+import 'package:la_vie/data_layer/dio/dio_exceptions.dart';
 import 'package:la_vie/presentation_layer/layout/layout_screen.dart';
 import 'package:la_vie/presentation_layer/models/login_model.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
@@ -28,7 +30,7 @@ class LoginCubit extends Cubit<LoginStates> {
     }).then((value) {
       userLoginModel = UserLoginModel.fromJson(value.data);
       token=UserLoginModel.token;
-      CachHelper.setData(key: 'token', value: UserLoginModel.token).then((value)
+      CacheHelper.setData(key: 'token', value: UserLoginModel.token).then((value)
       {
         GeneralCubit.get(context).getAllProducts(token: token);
         GeneralCubit.get(context).getAllBlogs(token: token);
@@ -43,12 +45,14 @@ class LoginCubit extends Cubit<LoginStates> {
       isLoginLoading = false;
       showToast(
           message: UserLoginModel.message!, toastState: ToastState.success);
-    }).catchError((error) {
-      emit(UserLoginErrorState());
-      print(error);
-
-      isLoginLoading = false;
-      showToast(message: UserLoginModel.message!, toastState: ToastState.error);
+    }).catchError((onError) {
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        isLoginLoading = false;
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(UserLoginErrorState());
+      }
     });
   }
 }

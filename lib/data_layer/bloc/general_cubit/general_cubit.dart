@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:io' as Io;
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
+import 'package:la_vie/data_layer/dio/dio_exceptions.dart';
 import 'package:la_vie/presentation_layer/models/all_blogs.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
@@ -53,7 +55,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
       icon: Icon(IconlyLight.notification),
       label: 'Notification',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(IconlyLight.profile),
       label: 'profile',
     ),
@@ -91,9 +93,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       getMyDataModel=GetMyDataModel.fromJson(value.data);
       isLoadProfile = false;
       emit(GetMyDataSuccessState());
-    }).catchError((error) {
-      isLoadProfile = false;
-      emit(GetMyDataErrorState());
+    }).catchError((onError)
+    {
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        isLoadProfile = false;
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(GetMyDataErrorState());
+      }
     });
   }
 
@@ -144,7 +152,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(value.data);
       if(AllProductsData.message=="Unauthorized")
       {
-        CachHelper.deleteData('token').then((value)
+        CacheHelper.deleteData('token').then((value)
         {
           showToast(
             message: 'Sorry please login again',
@@ -166,11 +174,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       getMyData(token: token);
       emit(GetAllProductsSuccessState());
       print('toooooooooooookennn');
-      print(CachHelper.getData(key:'token'));
-    }).catchError((error)
+      print(CacheHelper.getData(key:'token'));
+    }).catchError((onError)
     {
-      emit(GetAllProductsErrorState());
-      print(error.toString());
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(GetAllProductsErrorState());
+      }
     });
   }
 
@@ -191,11 +203,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       getMyForums(token: token);
       emit(GetAllForumsSuccessState());
       isLoadAllForums=false;
-    }).catchError((error)
+    }).catchError((onError)
     {
-      emit(GetAllForumsErrorState());
-      isLoadAllForums=false;
-      print(error.toString());
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        isLoadAllForums=false;
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(GetAllForumsErrorState());
+      }
     });
   }
 
@@ -215,11 +231,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(MyForums.data);
       emit(GetMyForumsSuccessState());
       isLoadMyForums=false;
-    }).catchError((error)
+    }).catchError((onError)
     {
-      emit(GetMyForumsErrorState());
-      isLoadMyForums=false;
-      print(error.toString());
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        isLoadMyForums=false;
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(GetMyForumsErrorState());
+      }
     });
   }
 
@@ -243,10 +263,14 @@ class GeneralCubit extends Cubit<GeneralStates> {
       print(value.data);
       getAllForums(token: token);
       emit(CreateCommentSuccessState());
-    }).catchError((error)
+    }).catchError((onError)
     {
-      emit(CreateCommentErrorState());
-      print(error.toString());
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(CreateCommentErrorState());
+      }
     });
   }
 
@@ -263,10 +287,14 @@ class GeneralCubit extends Cubit<GeneralStates> {
           'Content-Type': 'application/json',
         }).then((value) {
       emit(PutLoveSuccessState());
-    }).catchError((error)
+    }).catchError((onError)
     {
-      emit(PutLoveErrorState());
-      print(error.toString());
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(PutLoveErrorState());
+      }
     });
   }
 
@@ -293,11 +321,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       allBlogs = AllBlogs.fromJson(value.data);
       print("BBBlooooooooooooooooogssss");
       print(AllBlogs.plants);
-      // print(allBlogs!.data!.plants);
       emit(GetAllBlogsSuccessState());
-    }).catchError((error) {
-      emit(GetAllBlogsErrorState());
-      print(error.toString());
+    }).catchError((onError)
+    {
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(GetAllBlogsErrorState());
+      }
     });
   }
 
@@ -451,12 +483,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       isLoadCreatePost=false;
       emit(CreatePostSuccessState());
       showToast(message: 'post created', toastState: ToastState.success);
-    }).catchError((error)
+    }).catchError((onError)
     {
-      isLoadCreatePost=false;
-      emit(CreatePostErrorState());
-      showToast(message: 'error', toastState: ToastState.error);
-      print(error.toString());
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        isLoadCreatePost=false;
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(CreatePostErrorState());
+      }
     });
   }
 

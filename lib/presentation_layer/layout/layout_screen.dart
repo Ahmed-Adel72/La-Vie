@@ -6,7 +6,6 @@ import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 
 
-
 class LayoutScreen extends StatelessWidget {
    LayoutScreen({Key? key}) : super(key: key);
 
@@ -19,6 +18,7 @@ class LayoutScreen extends StatelessWidget {
       {
         var cubit=GeneralCubit.get(context);
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body:cubit.screen[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

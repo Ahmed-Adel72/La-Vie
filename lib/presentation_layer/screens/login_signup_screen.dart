@@ -71,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Container(
                     alignment: AlignmentDirectional.bottomStart,
-                    height: 90.0,
+                    height: 80.0,
                     child: Image.asset('assets/images/image_tree2.png'),
                   ),
                 ],
