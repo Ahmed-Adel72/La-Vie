@@ -131,10 +131,15 @@ class GeneralCubit extends Cubit<GeneralStates> {
       showToast(message: 'Update Success', toastState: ToastState.success);
       GetMyDataModel.updateData(firstName!,lastName!,email!);
       emit(UpdateMyDataSuccessState());
-    }).catchError((error) {
-      isUpdateProfile = false;
-      showToast(message: 'Check your data', toastState: ToastState.error);
-      emit(UpdateMyDataErrorState());
+    }).catchError((onError)
+    {
+      if(onError is DioError)
+      {
+        final errorMessage=DioExceptions.fromDioError(onError).toString();
+        isUpdateProfile = false;
+        showToast(message: errorMessage, toastState: ToastState.error);
+        emit(UpdateMyDataErrorState());
+      }
     });
   }
 

@@ -1,8 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:la_vie/data_layer/cach_helper.dart';
-import 'package:la_vie/data_layer/dio/dio.dart';
 import 'package:la_vie/presentation_layer/models/login_model.dart';
-import 'package:la_vie/presentation_layer/shared/components/components.dart';
 
 
 class DioExceptions implements Exception {

@@ -6,6 +6,8 @@ import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
+import '../screens/profile_screen.dart';
+
 Widget modalSheetUpdate(
     {required BuildContext context,
       required String nameOfModal,
@@ -75,12 +77,19 @@ Widget modalSheetUpdate(
                     ),
                     onPressed: ()
                     {
-                        cubit.updateMyData(
-                          token: token,
-                          firstName: controllerFirstName.text,
-                          lastName: controllerLastName.text,
-                          email: controllerEmail.text,
-                        );
+                      if (firstNameController.text.isEmpty||lastNameController.text.isEmpty||emailController.text.isEmpty)
+                      {
+                        cubit.isUpdateProfile = false;
+                        showToast(message: 'Check your data', toastState: ToastState.error);
+                      }else
+                        {
+                          cubit.updateMyData(
+                            token: token,
+                            firstName: controllerFirstName.text,
+                            lastName: controllerLastName.text,
+                            email: controllerEmail.text,
+                          );
+                        }
                     },
                     child: const Text(
                       'Change',

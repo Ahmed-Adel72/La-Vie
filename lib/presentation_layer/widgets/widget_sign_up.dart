@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:la_vie/data_layer/bloc/sign_up_cubit/sign_up_states.dart';
-import '../../data_layer/bloc/sign_up_cubit/sign_up_cubit.dart';
-import '../shared/components/components.dart';
+import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
+import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
+import 'package:la_vie/presentation_layer/shared/components/components.dart';
 
 TextEditingController? firstNameController = TextEditingController();
 TextEditingController? lastNameController = TextEditingController();
@@ -12,10 +12,11 @@ TextEditingController? confirmPasswordController = TextEditingController();
 
 Widget signUpWidget() {
   var formKey = GlobalKey<FormState>();
-  return BlocConsumer<SignUpCubit, SignUpStates>(
+  return BlocConsumer<LoginCubit, LoginStates>(
     listener: (context, state){},
     builder: (context, state)
     {
+      var cubit=LoginCubit.get(context);
       return Form(
         key: formKey,
         child: Column(
@@ -124,7 +125,7 @@ Widget signUpWidget() {
                 keyboardType: TextInputType.visiblePassword,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Password must not be empty ';
+                    return 'Password must not be empty';
                   }
                 },
               ),
@@ -144,11 +145,11 @@ Widget signUpWidget() {
               width: 300.0,
               child: defaultTextFormField(
                 context: context,
-                controller: passwordController,
+                controller: confirmPasswordController,
                 keyboardType: TextInputType.visiblePassword,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Confirm password must not be empty ';
+                    return 'Confirm password must not be empty';
                   }
                 },
               ),
@@ -156,7 +157,12 @@ Widget signUpWidget() {
             const SizedBox(
               height: 18.0,
             ),
-            Container(
+            cubit.isSignUpLoading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
+            ):Container(
               height: 40.0,
               width: 300.0,
               decoration: BoxDecoration(
@@ -166,10 +172,24 @@ Widget signUpWidget() {
               child: MaterialButton(
                 onPressed: ()
                 {
-                  if(formKey.currentState!.validate())
+                  if(firstNameController!.text.isEmpty||lastNameController!.text.isEmpty||emailController!.text.isEmpty||passwordController!.text.isEmpty)
                   {
-                    print('signUp');
+                    showToast(message: 'Please fill all requires', toastState: ToastState.error);
                   }
+                  else if(passwordController!.text!=confirmPasswordController!.text)
+                  {
+                    showToast(message: 'Confirm password isn\'t same password' , toastState: ToastState.error);
+                  }
+                  else
+                    {
+                      cubit.userSignUp(
+                        firstName: firstNameController!.text,
+                        lastName: lastNameController!.text,
+                        email: emailController!.text,
+                        password: passwordController!.text,
+                        context: context,
+                      );
+                    }
                 },
                 child: Text(
                   'Sign up',

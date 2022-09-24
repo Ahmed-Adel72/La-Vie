@@ -55,4 +55,47 @@ class LoginCubit extends Cubit<LoginStates> {
       }
     });
   }
+
+  bool isSignUpLoading = false;
+  void userSignUp({
+    required String? firstName,
+    required String? lastName,
+    required String? email,
+    required String? password,
+    required BuildContext context,
+  }) {
+    emit(UserSignUpLoadingState());
+    isSignUpLoading = true;
+    DioHelper.postData(url: signUp, data: {
+      'firstName': firstName!,
+      'lastName': lastName!,
+      'email': email!,
+      'password': password!,
+    }).then((value) {
+      userLoginModel = UserLoginModel.fromJson(value.data);
+      token=UserLoginModel.token;
+      CacheHelper.setData(key: 'token', value: UserLoginModel.token).then((value)
+      {
+        GeneralCubit.get(context).getAllProducts(token: token);
+        GeneralCubit.get(context).getAllBlogs(token: token);
+        GeneralCubit.get(context).getAllForums(token: token);
+        GeneralCubit.get(context).getMyData(token: token);
+      }).then((value)
+      {
+        navigatePushAndFinish(context: context, navigateTo: LayoutScreen());
+      });
+      print(UserLoginModel.token);
+      emit(UserSignUpSuccessState());
+      isSignUpLoading = false;
+      showToast(
+          message: UserLoginModel.message!, toastState: ToastState.success);
+    }).catchError((onError) {
+      if(onError is DioError)
+      {
+        isSignUpLoading = false;
+        showToast(message: onError.response!.data['message'].toString(), toastState: ToastState.error);
+        emit(UserSignUpErrorState());
+      }
+    });
+  }
 }

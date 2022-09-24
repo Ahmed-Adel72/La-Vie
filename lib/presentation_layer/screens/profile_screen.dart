@@ -7,6 +7,8 @@ import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
+import 'package:la_vie/presentation_layer/screens/login_signup_screen.dart';
+import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/widgets/modal_update_profile.dart';
 
 var firstNameController = TextEditingController();
@@ -30,10 +32,12 @@ class ProfileScreen extends StatelessWidget {
         return Form(
           key: formKey,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Stack(
-              children: [
+              children:
+              [
                 Container(
-                  height: 250,
+                  height: MediaQuery.of(context).size.height*0.4,
                   width: double.infinity,
                   decoration:BoxDecoration(
                     image: DecorationImage(
@@ -51,6 +55,78 @@ class ProfileScreen extends StatelessWidget {
                     child: Container(
                       color: Colors.black.withOpacity(0.6),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children:
+                    [
+                      IconButton(
+                        splashRadius: 30,
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  title:const Text('Are You Sure'),
+                                  content: Text(
+                                    'Logout?',
+                                    style: Theme.of(context).textTheme.bodyText2,
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        MaterialButton(
+                                          onPressed: () {
+                                            CacheHelper.deleteData(
+                                              'token',
+                                            ).then((value) {
+                                              if (value)
+                                              {
+                                                navigatePushAndFinish(
+                                                    context: context,
+                                                    navigateTo: LoginScreen());
+                                              }
+                                            }).then((value) {
+                                              token = '';
+                                              cubit.favorites=[];
+                                            });
+                                          },
+                                          child: Text(
+                                            'Yes',
+                                            style: Theme.of(context).textTheme.bodyText1,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        MaterialButton(
+                                          onPressed: ()
+                                          {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            'No',
+                                            style: Theme.of(context).textTheme.bodyText1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        icon:const Icon(
+                          IconlyLight.logout,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
