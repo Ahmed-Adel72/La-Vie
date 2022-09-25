@@ -57,4 +57,18 @@ class GetMyDataModel {
     data!['email'] = email;
   }
 
+  static String getMessageOfNotification(index)
+  {
+    return data?['UserNotification'][index]['message'];
+  }
+  static String getCreatedAt(index)
+  {
+    return data?['UserNotification'][index]['createdAt'];
+  }
+  static int getLengthOfNotification()
+  {
+    return data?['UserNotification'].length;
+  }
+
+
 }

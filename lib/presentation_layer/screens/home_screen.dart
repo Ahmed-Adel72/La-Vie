@@ -4,6 +4,7 @@ import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
+import 'package:la_vie/presentation_layer/screens/forums_screen.dart';
 import 'package:la_vie/presentation_layer/screens/my_card_screen.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
@@ -27,10 +28,32 @@ class HomeScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 35.0),
-                child: SizedBox(
-                  width: 400,
-                  height: 35.0,
-                  child: Image.asset('assets/images/la_vie.png'),
+                child: Row(
+                  children:
+                  [
+                     Padding(
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child:InkWell(
+                        onTap: ()
+                        {
+                          navigatePushTo(context: context, navigateTo: ForumsScreen());
+                        },
+                        child:const SizedBox(
+                          height: 30.0,
+                            width: 30.0,
+                            child:Icon(
+                              Icons.wysiwyg_outlined,
+                              color: primaryColor,
+                            ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 100,),
+                    SizedBox(
+                      height: 35.0,
+                      child: Image.asset('assets/images/la_vie.png'),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(

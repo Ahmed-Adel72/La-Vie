@@ -6,6 +6,7 @@ import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
+import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 import 'package:la_vie/presentation_layer/widgets/comments.dart';
 
@@ -30,9 +31,8 @@ Widget cardForums(token,context)=>ListView.separated(
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          GeneralCubit.get(context).getUserPhotoOfForum(index)!),
+                    image: const DecorationImage(
+                      image: NetworkImage("https://res.cloudinary.com/lms07/image/upload/v1645954589/avatar/6214b94ad832b0549b436264_avatar1645954588291.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -77,17 +77,26 @@ Widget cardForums(token,context)=>ListView.separated(
             ),
           ),
           const SizedBox(height: 12,),
-          Container(
-            height: 300,
-            width: double.infinity,
-            child: CachedNetworkImage(
+          // Container(
+          //   height: 350,
+          //   width: double.infinity,
+          //   child: CachedNetworkImage(
+          //     imageUrl: GeneralCubit.get(context).getImageOfForum(index)!,
+          //     placeholder:(context, url) =>const Center(child:CircularProgressIndicator(color: primaryColor,)) ,
+          //     errorWidget: (context, url, error) =>const Icon(Icons.error),
+          //     filterQuality: FilterQuality.low,
+          //     fit: BoxFit.fill,
+          //     memCacheHeight: 300,
+          //     memCacheWidth: 200,
+          //   ),
+          // ),
+          Center(
+            child:CachedNetworkImage(
               imageUrl: GeneralCubit.get(context).getImageOfForum(index)!,
               placeholder:(context, url) =>const Center(child:CircularProgressIndicator(color: primaryColor,)) ,
               errorWidget: (context, url, error) =>const Icon(Icons.error),
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
-              memCacheHeight: 250,
-              memCacheWidth: 250,
+              memCacheWidth: 300,
+              memCacheHeight: 300,
             ),
           ),
           Row(

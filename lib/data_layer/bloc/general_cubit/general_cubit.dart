@@ -15,6 +15,7 @@ import 'package:la_vie/data_layer/dio/dio_exceptions.dart';
 import 'package:la_vie/presentation_layer/models/all_blogs.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
+import 'package:la_vie/presentation_layer/models/forums.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
 import 'package:la_vie/presentation_layer/models/get_my_forums.dart';
 import 'package:la_vie/presentation_layer/screens/home_screen.dart';
@@ -192,6 +193,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   }
 
   AllForums? allForums;
+  TestForums? testForums;
   bool isLoadAllForums=false;
   void getAllForums({
     required String token,
@@ -201,9 +203,9 @@ class GeneralCubit extends Cubit<GeneralStates> {
     isLoadAllForums=true;
     DioHelper.getData(url: forums, headers: {
       'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
     }).then((value) {
       allForums=AllForums.fromJson(value.data);
+      testForums=TestForums.fromJson(value.data);
       print(AllForums.data);
       getMyForums(token: token);
       emit(GetAllForumsSuccessState());
