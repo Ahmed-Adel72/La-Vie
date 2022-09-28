@@ -76,6 +76,13 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ChangeBottomNavIndex());
   }
 
+  void navigateToScanScreen(int index,context)
+  {
+    navigatePushTo(context: context, navigateTo: ScanScreen());
+    currentIndex = index;
+    emit(ChangeBottomNavIndex());
+  }
+
   /////get my data
   bool isLoadProfile = false;
   GetMyDataModel? getMyDataModel;
@@ -500,7 +507,9 @@ class GeneralCubit extends Cubit<GeneralStates> {
         emit(CreatePostErrorState());
       }
     });
+
   }
+
 
 
 ////////////////dataBase////////////////////
@@ -628,6 +637,8 @@ class GeneralCubit extends Cubit<GeneralStates> {
       emit(GetDataBaseSuccessState());
     });
   }
+
+
 /////////////end of dataBase/////////////////
 
   int selectIndex=0;

@@ -77,3 +77,5 @@ class UpdateMyDataLoadingState extends GeneralStates {}
 class UpdateMyDataSuccessState extends GeneralStates {}
 
 class UpdateMyDataErrorState extends GeneralStates {}
+
+class QrCodeState extends GeneralStates {}

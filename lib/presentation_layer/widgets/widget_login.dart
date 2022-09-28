@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
@@ -102,6 +103,80 @@ Widget loginWidget(context) {
                       ),
                     ),
                   ),
+              const SizedBox(
+              height: 20.0,
+                   ),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Color(0xff979797),
+                    ),
+                  ),
+                  Text(
+                    ' or continue with ',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontSize: 14),
+                  ),
+                  const Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Color(0xff979797),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      cubit.signIn().then((value) =>
+                      {
+                        print(value),
+                        cubit.userSignInWithGoogle(
+                            firstName: value!.displayName,
+                            lastName: value.displayName,
+                            email: value.email,
+                            id: value.id,
+                            picture: "https://res.cloudinary.com/lms07/image/upload/v1645954589/avatar/6214b94ad832b0549b436264_avatar1645954588291.png",
+                            context: context,
+                        ),
+                      });
+                    },
+                    child:
+                    Image.asset('assets/images/google.png'),
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  GestureDetector(
+                    onTap: () async
+                    {
+                      // await FacebookSignInModel
+                      //     .signinWithFaceBook()
+                      //     .then((value) {
+                      //   flutterToast(
+                      //       msg: FacebookSignInModel
+                      //           .userDatafacebook?['name'],
+                      //       backgroundColor:
+                      //       AppColors.toastSuccess,
+                      //       textColor: AppColors.white);
+                      // });
+                    },
+                    child:
+                    Image.asset('assets/images/facebook.png'),
+                  )
+                ],
+              ),
+
           ],
         ),
       );

@@ -44,6 +44,9 @@ dependencies:
   sqflite:
   cached_network_image: ^3.2.1
   image_picker: ^0.8.5+3
+  qr_code_scanner: ^1.0.1
+  qr_flutter: ^4.0.0
+  google_sign_in: ^5.4.2
 
 
 

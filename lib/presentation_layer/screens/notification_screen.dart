@@ -42,7 +42,8 @@ Widget notifications(BuildContext context,index)=> Padding(
     [
       Text(
         GetMyDataModel.getMessageOfNotification(index),
-        style: Theme.of(context).textTheme.bodyText2!.copyWith(color:const Color(0xff1A1F36),fontSize: 16,fontWeight: FontWeight.w500),
+        style: Theme.of(context).textTheme.bodyText2!.
+        copyWith(color:const Color(0xff1A1F36),fontSize: 15,fontWeight: FontWeight.w500,fontFamily:'Poppins' ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),

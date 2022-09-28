@@ -13,3 +13,11 @@ class UserSignUpLoadingState extends LoginStates{}
 class UserSignUpSuccessState extends LoginStates{}
 
 class UserSignUpErrorState extends LoginStates{}
+
+class SignInState extends LoginStates{}
+
+class UserSignGoogleLoadingState extends LoginStates{}
+
+class UserSignGoogleSuccessState extends LoginStates{}
+
+class UserSignGoogleErrorState extends LoginStates{}

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/data_layer/dio/dio.dart';
@@ -97,5 +98,56 @@ class LoginCubit extends Cubit<LoginStates> {
         emit(UserSignUpErrorState());
       }
     });
+  }
+
+  bool isSignGoogleLoading = false;
+  void userSignInWithGoogle({
+    required String? firstName,
+    required String? lastName,
+    required String? email,
+    required String? id,
+    required String? picture,
+    required BuildContext context,
+  }) {
+    emit(UserSignGoogleLoadingState());
+    isSignGoogleLoading = true;
+    DioHelper.postData(url: signGoogle, data: {
+      'id': id!,
+      'firstName': firstName!,
+      'lastName': lastName!,
+      'email': email!,
+      'picture': picture!,
+    }).then((value) {
+      userLoginModel = UserLoginModel.fromJson(value.data);
+      token=UserLoginModel.token;
+      CacheHelper.setData(key: 'token', value: UserLoginModel.token).then((value)
+      {
+        GeneralCubit.get(context).getAllProducts(token: token);
+        GeneralCubit.get(context).getAllBlogs(token: token);
+        GeneralCubit.get(context).getAllForums(token: token);
+        GeneralCubit.get(context).getMyData(token: token);
+      }).then((value)
+      {
+        navigatePushAndFinish(context: context, navigateTo: LayoutScreen());
+      });
+      emit(UserSignGoogleSuccessState());
+      isSignGoogleLoading = false;
+      showToast(
+          message: UserLoginModel.message!, toastState: ToastState.success);
+    }).catchError((onError) {
+      if(onError is DioError)
+      {
+        isSignGoogleLoading = false;
+        showToast(message: onError.response!.data['message'].toString(), toastState: ToastState.error);
+        emit(UserSignGoogleErrorState());
+      }
+    });
+  }
+
+
+  static GoogleSignInAccount? userInfo;
+  static final googleSignIn = GoogleSignIn();
+  Future signIn() async {
+    return googleSignIn.signIn();
   }
 }

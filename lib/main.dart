@@ -7,7 +7,6 @@ import 'package:la_vie/presentation_layer/shared/constants/constants.dart';
 import 'data_layer/bloc/bloc_observer/bloc_observer.dart';
 import 'data_layer/bloc/general_cubit/general_cubit.dart';
 import 'data_layer/bloc/login_cubit/login_states.dart';
-import 'data_layer/bloc/sign_up_cubit/sign_up_cubit.dart';
 import 'data_layer/cach_helper.dart';
 import 'presentation_layer/layout/layout_screen.dart';
 import 'presentation_layer/shared/theme/theme_data.dart';
@@ -43,9 +42,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LoginCubit(),
-        ),
-        BlocProvider(
-          create: (context) => SignUpCubit(),
         ),
       ],
       child: BlocConsumer<LoginCubit, LoginStates>(
