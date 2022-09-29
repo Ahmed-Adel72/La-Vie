@@ -21,3 +21,7 @@ class UserSignGoogleLoadingState extends LoginStates{}
 class UserSignGoogleSuccessState extends LoginStates{}
 
 class UserSignGoogleErrorState extends LoginStates{}
+
+class ChangeVisibilityLoginInState extends LoginStates{}
+
+class ChangeVisibilitySignUpInState extends LoginStates{}

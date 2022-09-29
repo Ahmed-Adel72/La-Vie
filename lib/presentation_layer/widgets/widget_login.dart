@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
+import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
 TextEditingController? emailController = TextEditingController();
 TextEditingController? passwordController = TextEditingController();
@@ -57,6 +58,18 @@ Widget loginWidget(context) {
                 context: context,
                 controller: passwordController,
                 keyboardType: TextInputType.visiblePassword,
+                obscureText: cubit.isPassword,
+                suffixIcon: IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  onPressed: ()
+                  {
+                    cubit.changePasswordVisibilityLoginIn();
+                  },
+                  icon: Icon(
+                    cubit.suffix,
+                    color: primaryColor,
+                  ),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Password must not be empty ';

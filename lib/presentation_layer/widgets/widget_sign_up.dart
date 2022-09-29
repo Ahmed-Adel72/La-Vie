@@ -4,6 +4,8 @@ import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 
+import '../shared/theme/theme_data.dart';
+
 TextEditingController? firstNameController = TextEditingController();
 TextEditingController? lastNameController = TextEditingController();
 TextEditingController? emailController = TextEditingController();
@@ -123,6 +125,18 @@ Widget signUpWidget() {
                 context: context,
                 controller: passwordController,
                 keyboardType: TextInputType.visiblePassword,
+                obscureText: cubit.isPasswordSign,
+                suffixIcon: IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  onPressed: ()
+                  {
+                    cubit.changePasswordVisibilitySignUp();
+                  },
+                  icon: Icon(
+                    cubit.suffix,
+                    color: primaryColor,
+                  ),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Password must not be empty';
@@ -147,6 +161,7 @@ Widget signUpWidget() {
                 context: context,
                 controller: confirmPasswordController,
                 keyboardType: TextInputType.visiblePassword,
+                obscureText: cubit.isPasswordSign,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Confirm password must not be empty';

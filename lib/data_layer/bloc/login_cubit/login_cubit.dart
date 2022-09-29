@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
@@ -149,4 +150,23 @@ class LoginCubit extends Cubit<LoginStates> {
   Future signIn() async {
     return googleSignIn.signIn();
   }
+
+  bool isPassword = true;
+  IconData suffix = Icons.visibility_outlined;
+  void changePasswordVisibilityLoginIn() {
+    isPassword = !isPassword;
+    suffix =
+    isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    emit(ChangeVisibilityLoginInState());
+  }
+
+  bool isPasswordSign = true;
+  IconData suffixSign = Icons.visibility_outlined;
+  void changePasswordVisibilitySignUp() {
+    isPasswordSign = !isPasswordSign;
+    suffixSign =
+    isPasswordSign ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    emit(ChangeVisibilitySignUpInState());
+  }
+
 }
