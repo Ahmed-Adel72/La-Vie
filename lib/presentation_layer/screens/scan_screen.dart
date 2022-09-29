@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
@@ -19,7 +17,8 @@ class ScanScreen extends StatefulWidget {
     Barcode? result;
     QRViewController? controller;
 
-    void reassemble() {
+    @override
+  void reassemble() {
       super.reassemble();
       if (Platform.isAndroid) {
         controller!.pauseCamera();
@@ -73,12 +72,10 @@ class ScanScreen extends StatefulWidget {
                           [
                             Padding(
                               padding: const EdgeInsets.only(left: 35.0),
-                              child: Container(
-                                  child: Text('Successfully Scan!' ,
-                                     style:Theme.of(context).textTheme.bodyText2!
-                                         .copyWith(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black),
+                              child: Text('Successfully Scan!' ,
+                                 style:Theme.of(context).textTheme.bodyText2!
+                                     .copyWith(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black),
                                  ),
-                              ),
                             ),
                             const Spacer(),
                             Container(

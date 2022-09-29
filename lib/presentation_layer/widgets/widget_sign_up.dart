@@ -36,7 +36,7 @@ Widget signUpWidget() {
                     const SizedBox(
                       height: 5.0,
                     ),
-                    Container(
+                    SizedBox(
                       height: 40.0,
                       width: 137.0,
                       child: defaultTextFormField(
@@ -64,7 +64,7 @@ Widget signUpWidget() {
                     const SizedBox(
                       height: 5.0,
                     ),
-                    Container(
+                    SizedBox(
                       height: 40.0,
                       width: 137.0,
                       child: defaultTextFormField(
@@ -92,7 +92,7 @@ Widget signUpWidget() {
             const SizedBox(
               height: 5.0,
             ),
-            Container(
+            SizedBox(
               height: 40.0,
               width: 300.0,
               child: defaultTextFormField(
@@ -116,7 +116,7 @@ Widget signUpWidget() {
             const SizedBox(
               height: 5.0,
             ),
-            Container(
+            SizedBox(
               height: 40.0,
               width: 300.0,
               child: defaultTextFormField(
@@ -140,7 +140,7 @@ Widget signUpWidget() {
             const SizedBox(
               height: 5.0,
             ),
-            Container(
+            SizedBox(
               height: 40.0,
               width: 300.0,
               child: defaultTextFormField(

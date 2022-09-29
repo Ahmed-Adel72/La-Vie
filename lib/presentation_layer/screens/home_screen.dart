@@ -13,6 +13,7 @@ import 'package:la_vie/presentation_layer/widgets/category.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
+
   TextEditingController searchController = TextEditingController();
 
   @override

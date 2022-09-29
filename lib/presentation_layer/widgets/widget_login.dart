@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_cubit.dart';
 import 'package:la_vie/data_layer/bloc/login_cubit/login_states.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
@@ -28,7 +26,7 @@ Widget loginWidget(context) {
             const SizedBox(
               height: 5.0,
             ),
-            Container(
+            SizedBox(
               height: 45.0,
               width: 300.0,
               child: defaultTextFormField(
@@ -52,7 +50,7 @@ Widget loginWidget(context) {
             const SizedBox(
               height: 5.0,
             ),
-            Container(
+            SizedBox(
               height: 45.0,
               width: 300.0,
               child: defaultTextFormField(
@@ -160,16 +158,7 @@ Widget loginWidget(context) {
                   GestureDetector(
                     onTap: () async
                     {
-                      // await FacebookSignInModel
-                      //     .signinWithFaceBook()
-                      //     .then((value) {
-                      //   flutterToast(
-                      //       msg: FacebookSignInModel
-                      //           .userDatafacebook?['name'],
-                      //       backgroundColor:
-                      //       AppColors.toastSuccess,
-                      //       textColor: AppColors.white);
-                      // });
+
                     },
                     child:
                     Image.asset('assets/images/facebook.png'),

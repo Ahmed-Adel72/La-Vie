@@ -15,7 +15,6 @@ import 'package:la_vie/data_layer/dio/dio_exceptions.dart';
 import 'package:la_vie/presentation_layer/models/all_blogs.dart';
 import 'package:la_vie/presentation_layer/models/all_forums.dart';
 import 'package:la_vie/presentation_layer/models/all_product.dart';
-import 'package:la_vie/presentation_layer/models/forums.dart';
 import 'package:la_vie/presentation_layer/models/get_my_data.dart';
 import 'package:la_vie/presentation_layer/models/get_my_forums.dart';
 import 'package:la_vie/presentation_layer/screens/home_screen.dart';
@@ -83,7 +82,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ChangeBottomNavIndex());
   }
 
-  /////get my data
+  /////////////get_my_data/////////////
   bool isLoadProfile = false;
   GetMyDataModel? getMyDataModel;
   void getMyData({
@@ -113,6 +112,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////update_my_data/////////////
   bool isUpdateProfile = false;
   Future<void> updateMyData({
     required String token,
@@ -151,6 +151,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////get_all_products/////////////
   AllProductsData? allProductsData;
   void getAllProducts({
     required String token,
@@ -178,7 +179,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
           emit(GetAllProductsErrorState());
         });
       }
-      print("plaaaaaaaaaaaaaaaants");
+      print("plaaaaaaaaaaaaaants");
       print(AllProductsData.plants);
       print("seeeeeeeeeeeeeeeds");
       print(AllProductsData.seeds);
@@ -199,8 +200,8 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////get_all_forums/////////////
   AllForums? allForums;
-  TestForums? testForums;
   bool isLoadAllForums=false;
   void getAllForums({
     required String token,
@@ -212,7 +213,6 @@ class GeneralCubit extends Cubit<GeneralStates> {
       'Authorization': 'Bearer $token',
     }).then((value) {
       allForums=AllForums.fromJson(value.data);
-      testForums=TestForums.fromJson(value.data);
       print(AllForums.data);
       getMyForums(token: token);
       emit(GetAllForumsSuccessState());
@@ -229,6 +229,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////get_my_forums/////////////
   MyForums? myForums;
   bool isLoadMyForums=false;
   void getMyForums({
@@ -257,6 +258,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////create_comment/////////////
   Future<void> createComment({
     required String token,
     required String comment,
@@ -288,6 +290,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////put_love/////////////
   void putLove({
     required String token,
     required String forumId,
@@ -319,7 +322,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ChangeCardState());
   }
 
-
+  /////////////get_all_blogs/////////////
   AllBlogs? allBlogs;
   void getAllBlogs({
     required String token,
@@ -347,6 +350,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     });
   }
 
+  /////////////change_counter_plus_item_in_home_screen/////////////
   int counter=1;
   void changeCounterCardPlus({required index,}) {
     counter=getAmountOfProduct(index)!;
@@ -356,6 +360,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ChangeCardState());
   }
 
+  /////////////change_counter_minus_item_in_home_screen/////////////
   void changeCounterCardMinus({required index,}) {
     counter=getAmountOfProduct(index)!;
     if(counter<=1)
@@ -368,6 +373,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ChangeCardState());
   }
 
+  /////////////change_counter_plus_item_in_cart_screen/////////////
   int counterMyCard=1;
   void changeCounterMyCardPlus({required index,context})
   {
@@ -390,6 +396,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     }
   }
 
+  /////////////change_counter_minus_item_in_cart_screen/////////////
   bool isCounterZero=false;
   void changeCounterMyCardMinus({required index,context})
   {
@@ -424,6 +431,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     }
   }
 
+  /////////////check_item_in_database/////////////
   bool inMyCart=false;
   Future<void> checkItemInDataBase({required index})
   async{
@@ -448,10 +456,9 @@ class GeneralCubit extends Cubit<GeneralStates> {
       }
   }
 
-
+  /////////////choose_image_for_create_post/////////////
   File? profileAvatar;
   String? finalImage;
-
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -459,7 +466,6 @@ class GeneralCubit extends Cubit<GeneralStates> {
       profileAvatar = File(image.path.toString());
       final imageBytes = await Io.File(profileAvatar!.path).readAsBytes();
       finalImage = "data:image/png;base64,${base64Encode(imageBytes)}";
-
       emit(UserSetAvatarState());
     } on PlatformException catch (e) {}
   }
@@ -470,6 +476,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
     emit(ClearPickImageState());
   }
 
+  /////////////create_post/////////////
   bool isLoadCreatePost=false;
   Future<void> createPost({
     required String token,
@@ -512,7 +519,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
 
 
 
-////////////////dataBase////////////////////
+/////////////////////////dataBase////////////////////////////
   Database? database;
   List<Map> ?favorites=[];
   Future<void> createDataBase()async
@@ -639,7 +646,7 @@ class GeneralCubit extends Cubit<GeneralStates> {
   }
 
 
-/////////////end of dataBase/////////////////
+//////////////////////////end of dataBase///////////////////////////
 
   int selectIndex=0;
   void changeSelectIndex(int index)
@@ -659,6 +666,8 @@ class GeneralCubit extends Cubit<GeneralStates> {
     selectIndexOfForums=index;
     emit(ChangeSelectIndexSuccessState());
   }
+
+
   /////////////filter AllProducts//////////////
 
 String? getImageOfProduct(int index)
@@ -830,6 +839,7 @@ String? getImageOfProduct(int index)
     }
     return 0;
   }
+
 //////////////////fetch blogs////////////
   String? getBlogName(int index)
   {

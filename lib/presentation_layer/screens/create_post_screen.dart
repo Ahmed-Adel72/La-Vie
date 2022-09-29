@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -13,6 +12,7 @@ class CreatePostScreen extends StatelessWidget {
   TextEditingController titleController=TextEditingController();
   TextEditingController descriptionController=TextEditingController();
   var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GeneralCubit, GeneralStates>(
@@ -50,7 +50,7 @@ class CreatePostScreen extends StatelessWidget {
                   [
                     GeneralCubit.get(context).profileAvatar!=null?Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 100.0),
-                      child: Container(
+                      child: SizedBox(
                         height: 280,
                         width: double.infinity,
                         child: Stack(

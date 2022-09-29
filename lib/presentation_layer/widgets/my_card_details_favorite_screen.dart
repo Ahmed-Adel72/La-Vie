@@ -108,12 +108,7 @@ Widget myFavoriteCard(context,index) => Column(
                       .then((value)
                   {
                     GeneralCubit.get(context).updateTotalFromDataBase(total: GeneralCubit.get(context).favorites![0]['total']-GeneralCubit.get(context).favorites![index]['amount']*GeneralCubit.get(context).favorites![index]['price']);
-                  })
-                  //     .then((value)
-                  // {
-                  //   GeneralCubit.get(context).changeInMyCartButton(index: index);
-                  // })
-                  ;
+                  });
                 },
                 icon: const Icon(
                   Icons.delete,

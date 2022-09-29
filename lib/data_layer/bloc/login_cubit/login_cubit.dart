@@ -145,7 +145,6 @@ class LoginCubit extends Cubit<LoginStates> {
   }
 
 
-  static GoogleSignInAccount? userInfo;
   static final googleSignIn = GoogleSignIn();
   Future signIn() async {
     return googleSignIn.signIn();

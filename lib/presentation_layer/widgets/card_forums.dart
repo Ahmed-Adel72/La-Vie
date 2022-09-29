@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -76,19 +75,6 @@ Widget cardForums(token,context)=>ListView.separated(
             ),
           ),
           const SizedBox(height: 12,),
-          // Container(
-          //   height: 350,
-          //   width: double.infinity,
-          //   child: CachedNetworkImage(
-          //     imageUrl: GeneralCubit.get(context).getImageOfForum(index)!,
-          //     placeholder:(context, url) =>const Center(child:CircularProgressIndicator(color: primaryColor,)) ,
-          //     errorWidget: (context, url, error) =>const Icon(Icons.error),
-          //     filterQuality: FilterQuality.low,
-          //     fit: BoxFit.fill,
-          //     memCacheHeight: 300,
-          //     memCacheWidth: 200,
-          //   ),
-          // ),
           Center(
             child:CachedNetworkImage(
               imageUrl: GeneralCubit.get(context).getImageOfForum(index)!,
@@ -108,7 +94,6 @@ Widget cardForums(token,context)=>ListView.separated(
                  {
                    GeneralCubit.get(context).putLove(token: token, forumId: GeneralCubit.get(context).getIdOfForum(index)!, index: index);
                  });
-
                 },
                 icon:AllForums.getIsLove(index)?const Icon(IconlyLight.heart,color: Colors.red,):
                 const Icon(IconlyLight.heart,),

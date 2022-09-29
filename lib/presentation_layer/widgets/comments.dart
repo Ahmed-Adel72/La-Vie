@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
 
 TextEditingController commentController = TextEditingController();
-Widget comments(BuildContext context,int index,token)=> Container(
+Widget comments(BuildContext context,int index,token)=> SizedBox(
   height: MediaQuery.of(context).size.height*0.8,
   child: Stack(
     children:
     [
-      Container(
+      SizedBox(
         height: MediaQuery.of(context).size.height*0.72,
         child: ListView.separated(
           shrinkWrap: true,

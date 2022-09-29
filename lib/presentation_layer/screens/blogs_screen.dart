@@ -35,7 +35,7 @@ class BlogsScreen extends StatelessWidget {
                 child: selectCategoryOfBlog(),
               ),
               const SizedBox(height: 10.0,),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height*0.7,
                 width: double.infinity,
                 child: ListView.separated(

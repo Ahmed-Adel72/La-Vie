@@ -39,7 +39,7 @@ class LoginScreen extends StatelessWidget {
                   DefaultTabController(
                     initialIndex: 1,
                     length: 2,
-                    child: Container(
+                    child: SizedBox(
                       height: 430.0,
                       child: Scaffold(
                         appBar: TabBar(

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:la_vie/data_layer/bloc/general_cubit/general_cubit.dart';
@@ -35,7 +34,7 @@ Widget cardBlogs(context,index) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:
               [
-                Container(
+                SizedBox(
                   width:146,
                   child: Text(
                     '${GeneralCubit.get(context).getBlogName(index)}',
@@ -46,7 +45,7 @@ Widget cardBlogs(context,index) => Column(
                   ),
                 ),
                 const SizedBox(height: 11.0,),
-                Container(
+                SizedBox(
                   width: 190,
                   height: 40,
                   child: Text(

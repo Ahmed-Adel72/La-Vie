@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -88,10 +87,8 @@ class ForumsScreen extends StatelessWidget {
                   child: selectCategoryOfForums(),
                 ),
                 const SizedBox(height: 10,),
-
                 cubit.isLoadAllForums?const Center(child:CircularProgressIndicator(color:primaryColor,)):
                 cardForums(token,context),
-
               ],
             ),
           ),
@@ -105,7 +102,6 @@ class ForumsScreen extends StatelessWidget {
                   context: context,
                   navigateTo: CreatePostScreen(),
               );
-
             },
           ),
         );

@@ -5,7 +5,6 @@ import 'package:la_vie/data_layer/bloc/general_cubit/general_states.dart';
 import 'package:la_vie/data_layer/cach_helper.dart';
 import 'package:la_vie/presentation_layer/shared/components/components.dart';
 import 'package:la_vie/presentation_layer/shared/theme/theme_data.dart';
-
 import '../screens/profile_screen.dart';
 
 Widget modalSheetUpdate(
